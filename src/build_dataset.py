@@ -18,15 +18,10 @@ def _stable_spec(spec):
     return out
 
 def _parse_first_json(text: str):
-    """
-    텍스트에서 처음 등장하는 JSON object 하나를 robust하게 파싱.
-    """
     start = text.find("{")
     if start == -1:
         raise ValueError("No JSON start '{' found")
 
-    # 뒤로 확장해가며 json.loads가 되는 최초 구간 탐색
-    # 파일이 크지 않다는 가정에서 충분히 빠름
     for end in range(len(text), start, -1):
         if text[end-1] != "}":
             continue
@@ -38,15 +33,9 @@ def _parse_first_json(text: str):
     raise ValueError("Could not parse JSON object")
 
 def extract_spec_and_switches(text: str):
-    """
-    1) Arch spec JSON: 파일에서 첫 JSON
-    2) Synthesized switches JSON: '-- Synthesized Network' 이후 첫 JSON에서 switches만
-    """
-    # 1) spec은 첫 JSON
     spec = _parse_first_json(text)
     spec = _stable_spec(spec)
 
-    # 2) synthesized 영역 찾기
     m = re.search(r"--\s*Synthesized\s*Network\s*:?\s*--", text)
     if not m:
         raise ValueError("No '-- Synthesized Network --' marker found")
@@ -55,7 +44,6 @@ def extract_spec_and_switches(text: str):
     syn = _parse_first_json(tail)
 
     if "switches" not in syn:
-        # 가끔 syn이 {"network": {...}} 형태일 수도 있어서 한 번 더 들어가 봄
         if isinstance(syn, dict):
             for v in syn.values():
                 if isinstance(v, dict) and "switches" in v:
