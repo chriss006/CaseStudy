@@ -1,6 +1,7 @@
 import os
 import yaml
 import torch
+import json
 from datasets import load_dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments
 from peft import LoraConfig, get_peft_model
@@ -17,8 +18,8 @@ def main(cfg_path: str):
     ds = load_dataset(
         "json",
         data_files={
-            "train": "data/processed/train.jsonl",
-            "validation": "data/processed/valid.jsonl",
+            "train": "data/processed_str/train.jsonl",
+            "validation": "data/processed_str/valid.jsonl",
         },
     )
 
@@ -51,9 +52,22 @@ def main(cfg_path: str):
     )
     model = get_peft_model(model, lora_cfg)
 
+    def _as_str(x):
+        if isinstance(x, list):
+            x = x[0]
+        if isinstance(x, (bytes, bytearray)):
+            x = x.decode("utf-8")
+        return x
+
     def formatting_func(ex):
-        # prompt + 정답 JSON을 한 덩어리로 SFT
-        return build_prompt(ex["spec"]) + build_label(ex["switches"])
+        spec_s = _as_str(ex["spec"])
+        switches_s = _as_str(ex["switches"])
+
+        spec = json.loads(spec_s)
+        switches = json.loads(switches_s)
+
+        return [build_prompt(spec) + build_label(switches)]
+
 
     args = TrainingArguments(
         output_dir=cfg["output_dir"],
