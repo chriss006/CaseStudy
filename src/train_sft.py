@@ -9,6 +9,11 @@ from trl import SFTTrainer
 
 from format_noc import build_prompt, build_label
 
+def make_text(ex):
+    spec = json.loads(ex["spec"])
+    switches = json.loads(ex["switches"])
+    return {"text": build_prompt(spec) + build_label(switches)}
+
 def main(cfg_path: str):
     with open(cfg_path, "r", encoding="utf-8") as f:
         cfg = yaml.safe_load(f)
@@ -22,10 +27,12 @@ def main(cfg_path: str):
             "validation": "data/processed_str/valid.jsonl",
         },
     )
+    ds = ds.map(make_text, remove_columns=ds["train"].column_names)
 
     tok = AutoTokenizer.from_pretrained(cfg["model_name"], use_fast=True)
     if tok.pad_token is None:
         tok.pad_token = tok.eos_token
+    tok.padding_side = 'right'
 
     quant_cfg = BitsAndBytesConfig(
         load_in_4bit=cfg["load_in_4bit"],
@@ -52,21 +59,6 @@ def main(cfg_path: str):
     )
     model = get_peft_model(model, lora_cfg)
 
-    def _as_str(x):
-        if isinstance(x, list):
-            x = x[0]
-        if isinstance(x, (bytes, bytearray)):
-            x = x.decode("utf-8")
-        return x
-
-    def formatting_func(ex):
-        spec_s = _as_str(ex["spec"])
-        switches_s = _as_str(ex["switches"])
-
-        spec = json.loads(spec_s)
-        switches = json.loads(switches_s)
-
-        return [build_prompt(spec) + build_label(switches)]
 
 
     args = TrainingArguments(
@@ -79,6 +71,8 @@ def main(cfg_path: str):
         warmup_ratio=cfg["warmup_ratio"],
         weight_decay=cfg["weight_decay"],
         lr_scheduler_type=cfg["lr_scheduler_type"],
+        loggin_first_step=True,
+        logging_strategy='steps',
         logging_steps=cfg["logging_steps"],
         evaluation_strategy="steps",
         eval_steps=cfg["eval_steps"],
@@ -97,7 +91,7 @@ def main(cfg_path: str):
         tokenizer=tok,
         train_dataset=ds["train"],
         eval_dataset=ds["validation"],
-        formatting_func=formatting_func,
+        dataset_text_field='text',
         max_seq_length=cfg["max_seq_length"],
         packing=False,
         args=args,
