@@ -71,7 +71,7 @@ def main(cfg_path: str):
         warmup_ratio=cfg["warmup_ratio"],
         weight_decay=cfg["weight_decay"],
         lr_scheduler_type=cfg["lr_scheduler_type"],
-        loggin_first_step=True,
+        logging_first_step=True,
         logging_strategy='steps',
         logging_steps=cfg["logging_steps"],
         evaluation_strategy="steps",
