@@ -85,7 +85,7 @@ def main(cfg_path: str, resume: bool = False):
         warmup_ratio=cfg["warmup_ratio"],
         weight_decay=cfg["weight_decay"],
         lr_scheduler_type=cfg["lr_scheduler_type"],
-        logging_dir=os.path.join(cfg["output_dir"], "logs")
+        logging_dir=os.path.join(cfg["output_dir"], "logs"),
         logging_first_step=True,
         logging_strategy='steps',
         logging_steps=cfg["logging_steps"],
@@ -115,7 +115,10 @@ def main(cfg_path: str, resume: bool = False):
     if resume:
         ckpt = find_last_checkpoint(cfg["output_dir"])
         print("Resume from:", ckpt)
-        trainer.train(resume_from_checkpoint=ckpt)
+        if ckpt is None:
+          trainer.train()
+        else:
+          trainer.train(resume_from_checkpoint=ckpt)
     else:
         trainer.train()
     trainer.save_model(cfg["output_dir"])
