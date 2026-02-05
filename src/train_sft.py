@@ -14,7 +14,21 @@ def make_text(ex):
     switches = json.loads(ex["switches"])
     return {"text": build_prompt(spec) + build_label(switches)}
 
-def main(cfg_path: str):
+def find_last_checkpoint(output_dir: str):
+    if not os.path.isdir(output_dir):
+        return None
+    candidates = []
+    for name in os.listdir(output_dir):
+        if name.startswith("checkpoint-"):
+            p = os.path.join(output_dir, name)
+            if os.path.isdir(p):
+                candidates.append(p)
+    if not candidates:
+        return None
+    return sorted(candidates, key=lambda p: int(p.split("-")[-1]))[-1]
+
+
+def main(cfg_path: str, resume: bool = False):
     with open(cfg_path, "r", encoding="utf-8") as f:
         cfg = yaml.safe_load(f)
 
@@ -97,7 +111,12 @@ def main(cfg_path: str):
         args=args,
     )
 
-    trainer.train(resume_from_checkpoint=True)
+    if resume:
+        ckpt = find_last_checkpoint(cfg["output_dir"])
+        print("Resume from:", ckpt)
+        trainer.train(resume_from_checkpoint=ckpt)
+    else:
+        trainer.train()
     trainer.save_model(cfg["output_dir"])
     tok.save_pretrained(cfg["output_dir"])
     model.save_pretrained(os.path.join(cfg["output_dir"], "adapter"))
@@ -106,5 +125,6 @@ if __name__ == "__main__":
     import argparse
     p = argparse.ArgumentParser()
     p.add_argument("--config", type=str, default="configs/mistral7b_qlora_sft.yaml")
+    p.add_argument("--resume", action="store_true", help="resume from last checkpoint")
     a = p.parse_args()
-    main(a.config)
+    main(a.config, resume=a.resume)
