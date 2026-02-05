@@ -85,6 +85,7 @@ def main(cfg_path: str, resume: bool = False):
         warmup_ratio=cfg["warmup_ratio"],
         weight_decay=cfg["weight_decay"],
         lr_scheduler_type=cfg["lr_scheduler_type"],
+        logging_dir=os.path.join(cfg["output_dir"], "logs")
         logging_first_step=True,
         logging_strategy='steps',
         logging_steps=cfg["logging_steps"],
