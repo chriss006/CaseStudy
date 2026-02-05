@@ -97,7 +97,7 @@ def main(cfg_path: str):
         args=args,
     )
 
-    trainer.train()
+    trainer.train(resume_from_checkpoint=True)
     trainer.save_model(cfg["output_dir"])
     tok.save_pretrained(cfg["output_dir"])
     model.save_pretrained(os.path.join(cfg["output_dir"], "adapter"))
