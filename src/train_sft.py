@@ -1,6 +1,7 @@
 import os
 import yaml
 import torch
+import json
 from datasets import load_dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments
 from peft import LoraConfig, get_peft_model
@@ -8,7 +9,26 @@ from trl import SFTTrainer
 
 from format_noc import build_prompt, build_label
 
-def main(cfg_path: str):
+def make_text(ex):
+    spec = json.loads(ex["spec"])
+    switches = json.loads(ex["switches"])
+    return {"text": build_prompt(spec) + build_label(switches)}
+
+def find_last_checkpoint(output_dir: str):
+    if not os.path.isdir(output_dir):
+        return None
+    candidates = []
+    for name in os.listdir(output_dir):
+        if name.startswith("checkpoint-"):
+            p = os.path.join(output_dir, name)
+            if os.path.isdir(p):
+                candidates.append(p)
+    if not candidates:
+        return None
+    return sorted(candidates, key=lambda p: int(p.split("-")[-1]))[-1]
+
+
+def main(cfg_path: str, resume: bool = False):
     with open(cfg_path, "r", encoding="utf-8") as f:
         cfg = yaml.safe_load(f)
 
@@ -17,14 +37,16 @@ def main(cfg_path: str):
     ds = load_dataset(
         "json",
         data_files={
-            "train": "data/processed/train.jsonl",
-            "validation": "data/processed/valid.jsonl",
+            "train": "data/processed_str/train.jsonl",
+            "validation": "data/processed_str/valid.jsonl",
         },
     )
+    ds = ds.map(make_text, remove_columns=ds["train"].column_names)
 
     tok = AutoTokenizer.from_pretrained(cfg["model_name"], use_fast=True)
     if tok.pad_token is None:
         tok.pad_token = tok.eos_token
+    tok.padding_side = 'right'
 
     quant_cfg = BitsAndBytesConfig(
         load_in_4bit=cfg["load_in_4bit"],
@@ -51,9 +73,7 @@ def main(cfg_path: str):
     )
     model = get_peft_model(model, lora_cfg)
 
-    def formatting_func(ex):
-        # prompt + 정답 JSON을 한 덩어리로 SFT
-        return build_prompt(ex["spec"]) + build_label(ex["switches"])
+
 
     args = TrainingArguments(
         output_dir=cfg["output_dir"],
@@ -65,6 +85,9 @@ def main(cfg_path: str):
         warmup_ratio=cfg["warmup_ratio"],
         weight_decay=cfg["weight_decay"],
         lr_scheduler_type=cfg["lr_scheduler_type"],
+        logging_dir=os.path.join(cfg["output_dir"], "logs"),
+        logging_first_step=True,
+        logging_strategy='steps',
         logging_steps=cfg["logging_steps"],
         evaluation_strategy="steps",
         eval_steps=cfg["eval_steps"],
@@ -83,13 +106,18 @@ def main(cfg_path: str):
         tokenizer=tok,
         train_dataset=ds["train"],
         eval_dataset=ds["validation"],
-        formatting_func=formatting_func,
+        dataset_text_field='text',
         max_seq_length=cfg["max_seq_length"],
         packing=False,
         args=args,
     )
 
-    trainer.train()
+    if resume:
+        ckpt = find_last_checkpoint(cfg["output_dir"])
+        print("Resume from:", ckpt)
+        trainer.train(resume_from_checkpoint=ckpt)
+    else:
+        trainer.train()
     trainer.save_model(cfg["output_dir"])
     tok.save_pretrained(cfg["output_dir"])
     model.save_pretrained(os.path.join(cfg["output_dir"], "adapter"))
@@ -98,5 +126,6 @@ if __name__ == "__main__":
     import argparse
     p = argparse.ArgumentParser()
     p.add_argument("--config", type=str, default="configs/mistral7b_qlora_sft.yaml")
+    p.add_argument("--resume", action="store_true", help="resume from last checkpoint")
     a = p.parse_args()
-    main(a.config)
+    main(a.config, resume=a.resume)
