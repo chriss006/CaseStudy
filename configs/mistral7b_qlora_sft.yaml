@@ -15,7 +15,7 @@ warmup_ratio: 0.03
 weight_decay: 0.0
 lr_scheduler_type: cosine
 
-logging_steps: 5
+logging_steps: 10
 eval_steps: 25
 save_steps: 25
 save_total_limit: 2
