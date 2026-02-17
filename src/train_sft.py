@@ -37,8 +37,8 @@ def main(cfg_path: str, resume: bool = False):
     ds = load_dataset(
         "json",
         data_files={
-            "train": "data/processed_str/train.jsonl",
-            "validation": "data/processed_str/valid.jsonl",
+            "train": "/kaggle/input/datasets/haehyunlee/noc-stage1/data/step1_full/train.jsonl",
+            "validation": "/kaggle/input/datasets/haehyunlee/noc-stage1/data/step1_full/valid.jsonl",
         },
     )
     ds = ds.map(make_text, remove_columns=ds["train"].column_names)
