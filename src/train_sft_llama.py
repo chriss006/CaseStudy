@@ -69,9 +69,9 @@ def main(cfg_path: str, resume: bool = False):
     # Load LLaMA base model
     model = AutoModelForCausalLM.from_pretrained(
         cfg["model_name"],            # LLaMA-7B checkpoint
-        quantization_config=quant_cfg,
+        #quantization_config=quant_cfg,
         device_map="auto",
-        torch_dtype=torch.bfloat16 if cfg["bnb_4bit_compute_dtype"] == "bfloat16" else torch.float16,
+        torch_dtype=torch.float16,
     )
     model.config.use_cache = False
 
@@ -109,8 +109,8 @@ def main(cfg_path: str, resume: bool = False):
     optim="paged_adamw_8bit",
     report_to="none",
     seed=cfg["seed"],
-    bf16=(cfg["bnb_4bit_compute_dtype"] == "bfloat16" and torch.cuda.is_available()),
-    fp16=(cfg["bnb_4bit_compute_dtype"] != "bfloat16" and torch.cuda.is_available()),
+    bf16=False,
+    fp16=True,
 )
 
 
