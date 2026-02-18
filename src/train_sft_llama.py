@@ -84,30 +84,30 @@ def main(cfg_path: str, resume: bool = False):
 
     # Training arguments
     args = TrainingArguments(
-        output_dir=cfg["output_dir"],
-        num_train_epochs=cfg["num_train_epochs"],
-        per_device_train_batch_size=cfg["per_device_train_batch_size"],
-        per_device_eval_batch_size=cfg["per_device_eval_batch_size"],
-        gradient_accumulation_steps=cfg["gradient_accumulation_steps"],
-        learning_rate=cfg["learning_rate"],
-        warmup_ratio=cfg["warmup_ratio"],
-        weight_decay=cfg["weight_decay"],
-        lr_scheduler_type=cfg["lr_scheduler_type"],
-        logging_dir=os.path.join(cfg["output_dir"], "logs"),
-        logging_first_step=True,
-        logging_strategy='steps',
-        logging_steps=cfg["logging_steps"],
-        evaluation_strategy="steps",
-        eval_steps=cfg["eval_steps"],
-        save_strategy="steps",
-        save_steps=cfg["save_steps"],
-        save_total_limit=cfg["save_total_limit"],
-        optim="paged_adamw_8bit",
-        report_to="none",
-        seed=cfg["seed"],
-        bf16=(cfg["bnb_4bit_compute_dtype"] == "bfloat16" and torch.cuda.is_available()),
-        fp16=(cfg["bnb_4bit_compute_dtype"] != "bfloat16" and torch.cuda.is_available()),
-    )
+    output_dir=cfg["output_dir"],
+    num_train_epochs=cfg["num_train_epochs"],
+    per_device_train_batch_size=cfg["per_device_train_batch_size"],
+    per_device_eval_batch_size=cfg["per_device_eval_batch_size"],
+    gradient_accumulation_steps=cfg["gradient_accumulation_steps"],
+    learning_rate=cfg["learning_rate"],
+    warmup_ratio=cfg["warmup_ratio"],
+    weight_decay=cfg["weight_decay"],
+    lr_scheduler_type=cfg["lr_scheduler_type"],
+    logging_dir=os.path.join(cfg["output_dir"], "logs"),
+    logging_first_step=True,
+    logging_strategy="steps",
+    logging_steps=cfg["logging_steps"],
+    eval_steps=cfg["eval_steps"],           # replace evaluation_strategy
+    save_strategy="steps",
+    save_steps=cfg["save_steps"],
+    save_total_limit=cfg["save_total_limit"],
+    optim="paged_adamw_8bit",
+    report_to="none",
+    seed=cfg["seed"],
+    bf16=(cfg["bnb_4bit_compute_dtype"] == "bfloat16" and torch.cuda.is_available()),
+    fp16=(cfg["bnb_4bit_compute_dtype"] != "bfloat16" and torch.cuda.is_available()),
+)
+
 
     # Trainer
     trainer = SFTTrainer(
