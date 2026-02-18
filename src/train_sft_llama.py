@@ -33,6 +33,10 @@ def find_last_checkpoint(output_dir: str):
         return None
     return sorted(candidates, key=lambda p: int(p.split("-")[-1]))[-1]
 
+# Format function for TRL SFTTrainer (new API)
+def format_fn(example):
+    return example["text"]
+
 # Main function
 def main(cfg_path: str, resume: bool = False):
     # Load YAML config
