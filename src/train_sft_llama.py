@@ -8,6 +8,9 @@ from peft import LoraConfig, get_peft_model
 from trl import SFTTrainer
 from format_noc import build_prompt, build_label  # your existing prompt/label builder
 
+train_file: "/kaggle/input/datasets/haehyunlee/noc-stage1/data/step1_full/train.jsonl"
+valid_file: "/kaggle/input/datasets/haehyunlee/noc-stage1/data/step1_full/valid.jsonl"
+
 # Dataset helper functions
 
 def make_text_from_line(ex):
