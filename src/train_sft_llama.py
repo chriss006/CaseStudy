@@ -42,7 +42,7 @@ def main(cfg_path: str, resume: bool = False):
     # Load dataset
     ds = load_dataset(
         "text",
-        data_files={"train": cfg["train_file"], "validation": cfg["valid_file"]}
+        data_files={"train": train_file, "validation": valid_file}
     )
     ds = ds.map(make_text_from_line, remove_columns=['text'])
 
