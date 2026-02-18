@@ -59,12 +59,12 @@ def main(cfg_path: str, resume: bool = False):
     tok.padding_side = 'right'
 
     # Quantization config for 4-bit training
-    quant_cfg = BitsAndBytesConfig(
-        load_in_4bit=cfg["load_in_4bit"],
-        bnb_4bit_quant_type=cfg["bnb_4bit_quant_type"],
-        bnb_4bit_compute_dtype=getattr(torch, cfg["bnb_4bit_compute_dtype"]),
-        bnb_4bit_use_double_quant=cfg["bnb_4bit_use_double_quant"],
-    )
+    #quant_cfg = BitsAndBytesConfig(
+   #     load_in_4bit=cfg["load_in_4bit"],
+    #    bnb_4bit_quant_type=cfg["bnb_4bit_quant_type"],
+      #  bnb_4bit_compute_dtype=getattr(torch, cfg["bnb_4bit_compute_dtype"]),
+     #   bnb_4bit_use_double_quant=cfg["bnb_4bit_use_double_quant"],
+    #)
 
     # Load LLaMA base model
     model = AutoModelForCausalLM.from_pretrained(
