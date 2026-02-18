@@ -112,7 +112,7 @@ def main(cfg_path: str, resume: bool = False):
     # Trainer
     trainer = SFTTrainer(
         model=model,
-        tokenizer=tok,
+        processing_class=tok,
         train_dataset=ds["train"],
         eval_dataset=ds["validation"],
         dataset_text_field='text',
