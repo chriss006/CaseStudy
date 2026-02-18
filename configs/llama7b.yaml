@@ -1,5 +1,5 @@
 model_name: meta-llama/Llama-2-7b-hf
-output_dir: /kaggle/working/CaseStudy/stage1
+output_dir: /kaggle/working/CaseStudy/outputs/llama7b/stage1/v1
 
 seed: 42
 max_seq_length: 512
