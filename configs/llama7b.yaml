@@ -22,7 +22,7 @@ save_total_limit: 2
 # 4-bit quantization for memory efficiency
 load_in_4bit: false
 bnb_4bit_quant_type: null
-bnb_4bit_compute_dtype: null
+bnb_4bit_compute_dtype: "float16"
 bnb_4bit_use_double_quant: false
 
 # LoRA hyperparameters
