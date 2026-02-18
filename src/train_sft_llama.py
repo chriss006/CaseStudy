@@ -6,14 +6,20 @@ from datasets import load_dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments
 from peft import LoraConfig, get_peft_model
 from trl import SFTTrainer
-
 from format_noc import build_prompt, build_label
 
-def make_text(ex):
-    spec = json.loads(ex["spec"])
-    switches = json.loads(ex["switches"])
+# Paths to your pre-split dataset
+TRAIN_FP = "/kaggle/input/datasets/haehyunlee/noc-stage1/data/step1_full/train.jsonl"
+VALID_FP = "/kaggle/input/datasets/haehyunlee/noc-stage1/data/step1_full/valid.jsonl"
+
+# Convert a JSONL row to the text the model will train on
+def make_text_from_line(ex):
+    row = json.loads(ex["text"])
+    spec = row["spec"]
+    switches = row["switches"]
     return {"text": build_prompt(spec) + build_label(switches)}
 
+# Find last checkpoint for resume
 def find_last_checkpoint(output_dir: str):
     if not os.path.isdir(output_dir):
         return None
@@ -27,27 +33,28 @@ def find_last_checkpoint(output_dir: str):
         return None
     return sorted(candidates, key=lambda p: int(p.split("-")[-1]))[-1]
 
-
+# Main function
 def main(cfg_path: str, resume: bool = False):
+    # Load YAML config
     with open(cfg_path, "r", encoding="utf-8") as f:
         cfg = yaml.safe_load(f)
 
     os.makedirs(cfg["output_dir"], exist_ok=True)
 
+    # Load datasets
     ds = load_dataset(
-        "json",
-        data_files={
-            "train": "data/processed_str/train.jsonl",
-            "validation": "data/processed_str/valid.jsonl",
-        },
+        "text",
+        data_files={"train": TRAIN_FP, "validation": VALID_FP},
     )
-    ds = ds.map(make_text, remove_columns=ds["train"].column_names)
+    ds = ds.map(make_text_from_line, remove_columns=['text'])
 
+    # Load tokenizer
     tok = AutoTokenizer.from_pretrained(cfg["model_name"], use_fast=True)
     if tok.pad_token is None:
         tok.pad_token = tok.eos_token
     tok.padding_side = 'right'
 
+    # Quantization config for 4-bit training
     quant_cfg = BitsAndBytesConfig(
         load_in_4bit=cfg["load_in_4bit"],
         bnb_4bit_quant_type=cfg["bnb_4bit_quant_type"],
@@ -55,26 +62,27 @@ def main(cfg_path: str, resume: bool = False):
         bnb_4bit_use_double_quant=cfg["bnb_4bit_use_double_quant"],
     )
 
+    # Load LLaMA base model
     model = AutoModelForCausalLM.from_pretrained(
-        cfg["model_name"],
+        cfg["model_name"],            # LLaMA-7B checkpoint
         quantization_config=quant_cfg,
         device_map="auto",
         torch_dtype=torch.bfloat16 if cfg["bnb_4bit_compute_dtype"] == "bfloat16" else torch.float16,
     )
     model.config.use_cache = False
 
+    # LoRA config
     lora_cfg = LoraConfig(
         r=cfg["lora_r"],
         lora_alpha=cfg["lora_alpha"],
         lora_dropout=cfg["lora_dropout"],
         bias="none",
         task_type="CAUSAL_LM",
-        target_modules=cfg["lora_target_modules"],
+        target_modules=cfg["lora_target_modules"],  # ["q_proj","v_proj"] for LLaMA
     )
     model = get_peft_model(model, lora_cfg)
 
-
-
+    # Training arguments
     args = TrainingArguments(
         output_dir=cfg["output_dir"],
         num_train_epochs=cfg["num_train_epochs"],
@@ -101,6 +109,7 @@ def main(cfg_path: str, resume: bool = False):
         fp16=(cfg["bnb_4bit_compute_dtype"] != "bfloat16" and torch.cuda.is_available()),
     )
 
+    # Trainer
     trainer = SFTTrainer(
         model=model,
         tokenizer=tok,
@@ -112,20 +121,27 @@ def main(cfg_path: str, resume: bool = False):
         args=args,
     )
 
+    # Resume or start training
     if resume:
         ckpt = find_last_checkpoint(cfg["output_dir"])
         print("Resume from:", ckpt)
-        trainer.train(resume_from_checkpoint=ckpt)
+        if ckpt is None:
+            trainer.train()
+        else:
+            trainer.train(resume_from_checkpoint=ckpt)
     else:
         trainer.train()
+
+    # Save everything
     trainer.save_model(cfg["output_dir"])
     tok.save_pretrained(cfg["output_dir"])
     model.save_pretrained(os.path.join(cfg["output_dir"], "adapter"))
 
+
 if __name__ == "__main__":
     import argparse
     p = argparse.ArgumentParser()
-    p.add_argument("--config", type=str, default="configs/mistral7b_qlora_sft.yaml")
+    p.add_argument("--config", type=str, default="configs/llama7b_qlora_sft.yaml")
     p.add_argument("--resume", action="store_true", help="resume from last checkpoint")
     a = p.parse_args()
     main(a.config, resume=a.resume)
