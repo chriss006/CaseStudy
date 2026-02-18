@@ -108,10 +108,11 @@ def main(cfg_path: str, resume: bool = False):
     # Trainer
     trainer = SFTTrainer(
         model=model,
-        processing_class=tok,
+        tokenizer=tok,
         train_dataset=ds["train"],
         eval_dataset=ds["validation"],
-        formatting_func=format_fn,
+        #formatting_func=format_fn,
+        dataset_text_field='text',
         max_seq_length=cfg["max_seq_length"],
         packing=False,
         args=args,
