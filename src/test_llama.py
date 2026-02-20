@@ -2,66 +2,48 @@ import os
 import json
 import yaml
 import torch
-
 from datasets import load_dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from peft import PeftModel
+from torch.utils.data import DataLoader
 
 import sys
 sys.path.append("/kaggle/working/CaseStudy/src")
-from format_noc import build_prompt  # only need prompt for testing
+from format_noc import build_prompt
 
-# -----------------------------
-# Paths
-# -----------------------------
+
 TEST_FP = "/kaggle/input/datasets/haehyunlee/noc-stage1/data/step1_full/test.jsonl"
 
-# -----------------------------
-# Dataset formatter
-# -----------------------------
+
 def make_test_text(ex):
     row = json.loads(ex["text"])
-    spec = row["spec"]
-    return {"text": build_prompt(spec)}
+    return {"text": build_prompt(row["spec"])}
 
-# -----------------------------
-# Find last checkpoint
-# -----------------------------
+
 def find_last_checkpoint(output_dir):
-    if not os.path.exists(output_dir):
-        return None
-
     ckpts = [
         os.path.join(output_dir, d)
         for d in os.listdir(output_dir)
-        if d.startswith("checkpoint-") and os.path.isdir(os.path.join(output_dir, d))
+        if d.startswith("checkpoint-")
     ]
+    return sorted(ckpts, key=lambda x: int(x.split("-")[-1]))[-1]
 
-    if not ckpts:
-        return None
 
-    # Sort by step number
-    ckpts = sorted(ckpts, key=lambda x: int(x.split("-")[-1]))
-    return ckpts[-1]
-
-# -----------------------------
-# Main testing function
-# -----------------------------
 def main(cfg_path):
-    # Load config
+
     with open(cfg_path) as f:
         cfg = yaml.safe_load(f)
 
-    # Load dataset
+    # Dataset
     ds = load_dataset("text", data_files={"test": TEST_FP})
     ds = ds.map(make_test_text, remove_columns=["text"])
 
     # Tokenizer
     tok = AutoTokenizer.from_pretrained(cfg["model_name"])
     tok.pad_token = tok.eos_token
-    tok.padding_side = "right"
+    tok.padding_side = "left"
 
-    # Quantization config
+    # Quant
     quant_cfg = BitsAndBytesConfig(
         load_in_4bit=cfg["load_in_4bit"],
         bnb_4bit_quant_type=cfg["bnb_4bit_quant_type"],
@@ -69,7 +51,7 @@ def main(cfg_path):
         bnb_4bit_use_double_quant=cfg["bnb_4bit_use_double_quant"],
     )
 
-    # Load base model
+    # Base
     base = AutoModelForCausalLM.from_pretrained(
         cfg["model_name"],
         quantization_config=quant_cfg,
@@ -77,40 +59,51 @@ def main(cfg_path):
         torch_dtype=torch.float16,
     )
 
-    # Load LoRA adapter
+    # Load LoRA
     ckpt = find_last_checkpoint(cfg["output_dir"])
-    if ckpt is None:
-        raise RuntimeError(f"No checkpoints found in {cfg['output_dir']}")
-    print("Using checkpoint:", ckpt)
-
     model = PeftModel.from_pretrained(base, ckpt)
     model.eval()
-    model.config.use_cache = True
 
-    # Generate predictions
-    predictions = []
-    for example in ds["test"]:
-        inp = tok(example["text"], return_tensors="pt").to(model.device)
+    # Dataloader
+    loader = DataLoader(ds["test"], batch_size=4)
+
+    preds = []
+
+    for i, batch in enumerate(loader):
+
+        inputs = tok(
+            batch["text"],
+            return_tensors="pt",
+            padding=True,
+            truncation=True,
+        ).to(model.device)
+
         with torch.no_grad():
-            out = model.generate(**inp, max_new_tokens=256)
-            txt = tok.decode(out[0], skip_special_tokens=True)
-            # Remove the prompt from output
-            predictions.append(txt[len(example["text"]):].strip())
+            outs = model.generate(
+                **inputs,
+                max_new_tokens=256,
+            )
 
-    # Save predictions
-    out_file = "test_predictions.jsonl"
-    with open(out_file, "w") as f:
-        for pred in predictions:
-            f.write(json.dumps({"prediction": pred}) + "\n")
+        texts = tok.batch_decode(outs, skip_special_tokens=True)
 
-    print(f"Predictions saved to {out_file}")
+        for inp, out in zip(batch["text"], texts):
+            preds.append(out[len(inp):].strip())
+
+        if i % 50 == 0:
+            print(f"Processed {i*4}/{len(ds['test'])}")
+
+    # Save
+    with open("test_predictions.jsonl", "w") as f:
+        for p in preds:
+            f.write(json.dumps({"prediction": p}) + "\n")
+
+    print("Saved test_predictions.jsonl")
 
 
 if __name__ == "__main__":
     import argparse
-
     p = argparse.ArgumentParser()
-    p.add_argument("--config", default="configs/llama7b.yaml")
+    p.add_argument("--config")
     args = p.parse_args()
 
     main(args.config)
