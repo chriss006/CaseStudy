@@ -1,5 +1,5 @@
 model_name: openlm-research/open_llama_7b_v2
-output_dir: /kaggle/working/CaseStudy/outputs/llama7b/stage1/v1
+output_dir: /kaggle/input/datasets/chetana092004/llama7b-stage1-ckpt/v2
 
 seed: 42
 max_seq_length: 512
