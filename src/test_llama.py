@@ -110,7 +110,7 @@ if __name__ == "__main__":
     import argparse
 
     p = argparse.ArgumentParser()
-    p.add_argument("--config", default="configs/llama7b_qlora_sft.yaml")
+    p.add_argument("--config", default="configs/llama7b.yaml")
     args = p.parse_args()
 
     main(args.config)
