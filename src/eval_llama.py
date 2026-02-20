@@ -34,19 +34,24 @@ def make_text_from_line(ex):
 
 # Find last checkpoint
 def find_last_checkpoint(output_dir):
-    if not os.path.isdir(output_dir):
+    if not os.path.exists(output_dir):
         return None
 
-    ckpts = [
-        os.path.join(output_dir, d)
-        for d in os.listdir(output_dir)
-        if d.startswith("checkpoint-")
-    ]
+    ckpts = []
 
-    if not ckpts:
+    for d in os.listdir(output_dir):
+        full = os.path.join(output_dir, d)
+
+        if d.startswith("checkpoint-") and os.path.isdir(full):
+            ckpts.append(full)
+
+    if len(ckpts) == 0:
         return None
 
-    return sorted(ckpts, key=lambda x: int(x.split("-")[-1]))[-1]
+    # Sort by step number
+    ckpts = sorted(ckpts, key=lambda x: int(x.split("-")[-1]))
+
+    return ckpts[-1]
 
 
 def main(cfg_path):
@@ -89,8 +94,8 @@ def main(cfg_path):
     print("Using checkpoint:", ckpt)
 
     if ckpt is None:
-        raise ValueError(f"No checkpoint found in {cfg['output_dir']}")
-
+        raise RuntimeError(f"No checkpoints found in {cfg['output_dir']}")
+        
     model = PeftModel.from_pretrained(base, ckpt)
     model.eval()
     model.config.use_cache = True
