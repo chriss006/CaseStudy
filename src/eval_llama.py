@@ -88,11 +88,16 @@ def main(cfg_path):
     ckpt = find_last_checkpoint(cfg["output_dir"])
     print("Using checkpoint:", ckpt)
 
+    if ckpt is None:
+        raise ValueError(f"No checkpoint found in {cfg['output_dir']}")
+
     model = PeftModel.from_pretrained(base, ckpt)
     model.eval()
+    model.config.use_cache = True
 
     # Training args (minimal)
     args = TrainingArguments(
+        seed=42,
         output_dir="./eval_tmp",
         per_device_eval_batch_size=cfg["per_device_eval_batch_size"],
         report_to="none",
