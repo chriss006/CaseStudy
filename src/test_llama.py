@@ -51,11 +51,13 @@ def main(cfg_path):
         bnb_4bit_use_double_quant=cfg["bnb_4bit_use_double_quant"],
     )
 
+    torch.cuda.set_device(0)
+
     # Base
     base = AutoModelForCausalLM.from_pretrained(
         cfg["model_name"],
         quantization_config=quant_cfg,
-        device_map="auto",
+        device_map={"": 0},
         torch_dtype=torch.float16,
     )
 
