@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/Users/mchinnu/git_learning_clones/for_ezhil/CaseStudy-ezhil/src/train_sft.py", line 3, in <module>
+    import torch
+  File "/opt/anaconda3/lib/python3.13/site-packages/torch/__init__.py", line 367, in <module>
+    from torch._C import *  # noqa: F403
+    ^^^^^^^^^^^^^^^^^^^^^^
+ImportError: dlopen(/opt/anaconda3/lib/python3.13/site-packages/torch/_C.cpython-313-darwin.so, 0x0002): Symbol not found: __ZN2at17toDLPackVersionedERKNS_6TensorE
+  Referenced from: <BB50E81D-3366-3B8D-B3F3-7EDE5338E609> /opt/anaconda3/lib/python3.13/site-packages/torch/lib/libtorch_python.dylib
+  Expected in:     <1F1D80B0-A695-3C81-AD64-A520121567F5> /opt/anaconda3/lib/libtorch_cpu.dylib

@@ -9,14 +9,10 @@ from trl import SFTTrainer
 
 from format_noc import build_prompt, build_label
 
-TRAIN_FP = "/kaggle/input/datasets/haehyunlee/noc-stage1/data/step1_full/train.jsonl"
-VALID_FP = "/kaggle/input/datasets/haehyunlee/noc-stage1/data/step1_full/valid.jsonl"
-
-def make_text_from_line(ex):
-    row = json.loads(ex["text"])
-    spec = row["spec"]
-    switches = row["switches"]
-    return {"text": build_prompt(spec) + build_label(switches)}
+def make_text(ex):
+    spec = json.loads(ex["spec"])
+    output = json.loads(ex["output"])
+    return {"text": build_prompt(spec) + build_label(output)}
 
 def find_last_checkpoint(output_dir: str):
     if not os.path.isdir(output_dir):
@@ -39,13 +35,13 @@ def main(cfg_path: str, resume: bool = False):
     os.makedirs(cfg["output_dir"], exist_ok=True)
 
     ds = load_dataset(
-        "text",
+        "json",
         data_files={
-            "train": TRAIN_FP,
-            "validation": VALID_FP
+            "train": "data/processed_str/train.jsonl",
+            "validation": "data/processed_str/valid.jsonl",
         },
     )
-    ds = ds.map(make_text_from_line, remove_columns=['text'])
+    ds = ds.map(make_text, remove_columns=ds["train"].column_names)
 
     tok = AutoTokenizer.from_pretrained(cfg["model_name"], use_fast=True)
     if tok.pad_token is None:

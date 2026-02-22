@@ -53,7 +53,14 @@ def extract_spec_and_switches(text: str):
     if "switches" not in syn:
         raise ValueError("Synthesized JSON has no 'switches'")
 
-    return spec, syn["switches"]
+    # Extract both switches and routing_paths
+    output = {"switches": syn["switches"]}
+    
+    # Add routing_paths if present
+    if "routing_paths" in syn:
+        output["routing_paths"] = syn["routing_paths"]
+    
+    return spec, output
 
 def build_samples(raw_dir: str):
     samples = []
@@ -62,14 +69,14 @@ def build_samples(raw_dir: str):
         text = Path(fp).read_text(encoding="utf-8", errors="ignore")
 
         try:
-            spec, switches = extract_spec_and_switches(text)
+            spec, output = extract_spec_and_switches(text)
         except Exception as e:
             raise ValueError(f"{fp}: {e}")
 
         samples.append({
             "id": name,
             "spec": spec,
-            "switches": switches,
+            "output": output,
         })
     return samples
 
@@ -80,8 +87,10 @@ def write_jsonl(path: str, rows):
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
 def main():
-    raw_dir = "/content/drive/MyDrive/DSAI/CaseStudy/data/raw/"  
-    out_dir = "/content/drive/MyDrive/DSAI/CaseStudy/data/processed/"
+    # Use relative paths from project root
+    base_dir = Path(__file__).parent.parent
+    raw_dir = str(base_dir / "data" / "raw")
+    out_dir = str(base_dir / "data" / "processed")
     train_path = os.path.join(out_dir, "train.jsonl")
     valid_path = os.path.join(out_dir, "valid.jsonl")
 
