@@ -1,0 +1,365 @@
+{
+  "spec": {
+    "inits": {
+      "i_0": {
+        "x": 13,
+        "y": 846
+      },
+      "i_1": {
+        "x": 271,
+        "y": 150
+      },
+      "i_2": {
+        "x": 709,
+        "y": 858
+      },
+      "i_3": {
+        "x": 711,
+        "y": 751
+      }
+    },
+    "targets": {
+      "t_0": {
+        "x": 152,
+        "y": 543
+      },
+      "t_1": {
+        "x": 720,
+        "y": 981
+      },
+      "t_2": {
+        "x": 311,
+        "y": 492
+      },
+      "t_3": {
+        "x": 334,
+        "y": 685
+      },
+      "t_4": {
+        "x": 272,
+        "y": 88
+      }
+    },
+    "connectivity": {
+      "r_0": [
+        "i_0",
+        "t_2"
+      ],
+      "r_1": [
+        "i_0",
+        "t_0"
+      ],
+      "r_2": [
+        "i_1",
+        "t_2"
+      ],
+      "r_3": [
+        "i_1",
+        "t_3"
+      ],
+      "r_4": [
+        "i_1",
+        "t_4"
+      ],
+      "r_5": [
+        "i_2",
+        "t_0"
+      ],
+      "r_6": [
+        "i_2",
+        "t_1"
+      ],
+      "r_7": [
+        "i_3",
+        "t_1"
+      ],
+      "r_8": [
+        "i_3",
+        "t_4"
+      ],
+      "r_9": [
+        "i_3",
+        "t_3"
+      ]
+    },
+    "floorplan_dim": [
+      1000,
+      1000
+    ],
+    "blockages": {
+      "b_0": {
+        "x": 273,
+        "y": 23,
+        "width": 531,
+        "height": 245
+      },
+      "b_1": {
+        "x": 131,
+        "y": 20,
+        "width": 15,
+        "height": 177
+      },
+      "b_2": {
+        "x": 160,
+        "y": 344,
+        "width": 26,
+        "height": 102
+      },
+      "b_3": {
+        "x": 338,
+        "y": 323,
+        "width": 369,
+        "height": 596
+      },
+      "b_4": {
+        "x": 15,
+        "y": 385,
+        "width": 134,
+        "height": 335
+      },
+      "b_5": {
+        "x": 193,
+        "y": 496,
+        "width": 143,
+        "height": 183
+      },
+      "b_6": {
+        "x": 160,
+        "y": 606,
+        "width": 18,
+        "height": 25
+      },
+      "b_7": {
+        "x": 14,
+        "y": 780,
+        "width": 11,
+        "height": 180
+      },
+      "b_8": {
+        "x": 11,
+        "y": 986,
+        "width": 152,
+        "height": 12
+      },
+      "b_9": {
+        "x": 541,
+        "y": 287,
+        "width": 447,
+        "height": 403
+      },
+      "b_10": {
+        "x": 542,
+        "y": 847,
+        "width": 64,
+        "height": 100
+      },
+      "b_11": {
+        "x": 721,
+        "y": 804,
+        "width": 246,
+        "height": 181
+      }
+    }
+  },
+  "output": {
+    "switches": {
+      "s_0": {
+        "x": 542,
+        "y": 565
+      },
+      "s_1": {
+        "x": 297,
+        "y": 775
+      },
+      "s_2": {
+        "x": 184,
+        "y": 736
+      },
+      "s_3": {
+        "x": 219,
+        "y": 781
+      },
+      "s_4": {
+        "x": 37,
+        "y": 330
+      },
+      "s_5": {
+        "x": 297,
+        "y": 352
+      },
+      "s_6": {
+        "x": 143,
+        "y": 623
+      },
+      "s_7": {
+        "x": 457,
+        "y": 329
+      },
+      "s_8": {
+        "x": 646,
+        "y": 463
+      }
+    },
+    "routing_paths": {
+      "r_0": [
+        "i_0",
+        "s_0",
+        "s_1",
+        "s_5",
+        "s_4",
+        "s_2",
+        "s_1",
+        "s_5",
+        "s_0",
+        "t_2"
+      ],
+      "r_1": [
+        "i_0",
+        "s_0",
+        "s_4",
+        "s_5",
+        "s_6",
+        "s_2",
+        "s_1",
+        "s_5",
+        "s_0",
+        "t_0"
+      ],
+      "r_2": [
+        "i_1",
+        "s_0",
+        "s_1",
+        "s_5",
+        "s_2",
+        "s_3",
+        "s_5",
+        "s_1",
+        "s_5",
+        "s_0",
+        "t_2"
+      ],
+      "r_3": [
+        "i_1",
+        "s_0",
+        "s_1",
+        "s_5",
+        "s_2",
+        "s_3",
+        "s_5",
+        "s_1",
+        "s_5",
+        "s_0",
+        "t_3"
+      ],
+      "r_4": [
+        "i_1",
+        "s_0",
+        "s_1",
+        "s_5",
+        "s_2",
+        "s_3",
+        "s_5",
+        "s_1",
+        "s_5",
+        "s_0",
+        "t_4"
+      ],
+      "r_5": [
+        "i_2",
+        "s_0",
+        "s_1",
+        "s_5",
+        "s_2",
+        "s_3",
+        "s_5",
+        "s_1",
+        "s_5",
+        "s_0",
+        "t_0"
+      ],
+      "r_6": [
+        "i_2",
+        "s_0",
+        "s_1",
+        "s_5",
+        "s_2",
+        "s_3",
+        "s_5",
+        "s_1",
+        "s_5",
+        "s_0",
+        "t_1"
+      ],
+      "r_7": [
+        "i_3",
+        "s_0",
+        "s_1",
+        "s_5",
+        "s_2",
+        "s_3",
+        "s_5",
+        "s_1",
+        "s_5",
+        "s_0",
+        "t_1"
+      ],
+      "r_8": [
+        "i_3",
+        "s_0",
+        "s_1",
+        "s_5",
+        "s_2",
+        "s_3",
+        "s_5",
+        "s_1",
+        "s_5",
+        "s_0",
+        "t_4"
+      ],
+      "r_9": [
+        "i_3",
+        "s_0",
+        "s_1",
+        "s_5",
+        "s_2",
+        "s_3",
+        "s_5",
+        "s_1",
+        "s_5",
+        "s_0",
+        "t_3"
+      ]
+    }
+  },
+  "raw_generation": "{\n  \"switches\": {\n    \"s_0\": {\"x\": 542, \"y\": 565},\n    \"s_1\": {\"x\": 297, \"y\": 775},\n    \"s_2\": {\"x\": 184, \"y\": 736},\n    \"s_3\": {\"x\": 219, \"y\": 781},\n    \"s_4\": {\"x\": 37, \"y\": 330},\n    \"s_5\": {\"x\": 297, \"y\": 352},\n    \"s_6\": {\"x\": 143, \"y\": 623},\n    \"s_7\": {\"x\": 457, \"y\": 329},\n    \"s_8\": {\"x\": 646, \"y\": 463}\n  },\n  \"routing_paths\": {\n    \"r_0\": [\"i_0\", \"s_0\", \"s_1\", \"s_5\", \"s_4\", \"s_2\", \"s_1\", \"s_5\", \"s_0\", \"t_2\"],\n    \"r_1\": [\"i_0\", \"s_0\", \"s_4\", \"s_5\", \"s_6\", \"s_2\", \"s_1\", \"s_5\", \"s_0\", \"t_0\"],\n    \"r_2\": [\"i_1\", \"s_0\", \"s_1\", \"s_5\", \"s_2\", \"s_3\", \"s_5\", \"s_1\", \"s_5\", \"s_0\", \"t_2\"],\n    \"r_3\": [\"i_1\", \"s_0\", \"s_1\", \"s_5\", \"s_2\", \"s_3\", \"s_5\", \"s_1\", \"s_5\", \"s_0\", \"t_3\"],\n    \"r_4\": [\"i_1\", \"s_0\", \"s_1\", \"s_5\", \"s_2\", \"s_3\", \"s_5\", \"s_1\", \"s_5\", \"s_0\", \"t_4\"],\n    \"r_5\": [\"i_2\", \"s_0\", \"s_1\", \"s_5\", \"s_2\", \"s_3\", \"s_5\", \"s_1\", \"s_5\", \"s_0\", \"t_0\"],\n    \"r_6\": [\"i_2\", \"s_0\", \"s_1\", \"s_5\", \"s_2\", \"s_3\", \"s_5\", \"s_1\", \"s_5\", \"s_0\", \"t_1\"],\n    \"r_7\": [\"i_3\", \"s_0\", \"s_1\", \"s_5\", \"s_2\", \"s_3\", \"s_5\", \"s_1\", \"s_5\", \"s_0\", \"t_1\"],\n    \"r_8\": [\"i_3\", \"s_0\", \"s_1\", \"s_5\", \"s_2\", \"s_3\", \"s_5\", \"s_1\", \"s_5\", \"s_0\", \"t_4\"],\n    \"r_9\": [\"i_3\", \"s_0\", \"s_1\", \"s_5\", \"s_2\", \"s_3\", \"s_5\", \"s_1\", \"s_5\", \"s_0\", \"t_3\"]\n  }\n}\n\nExplanation:\nWe use a combination of algorithms, including force-directed placement, minimum spanning tree, and wirelength minimization techniques, to optimally place switches and determine routing paths.\n\nThe switches are placed as follows:\n1. Place switch s_0 at the center of the floorplan to minimize overall wirelength.\n2. For each initiator and target, find the shortest path to the switch s_0 using A* algorithm with heuristic set to the Manhattan distance.\n3. If the shortest path passes through a blockage, find a new shortest path.\n4. Place switches s_1, s_2, s_3, s_4, s_5, s_6, s_7, and s_8 along the shortest paths to minimize wirelength.\n\nThe",
+  "parsed_successfully": true,
+  "validation": {
+    "valid": false,
+    "errors": [
+      "switch_placement: s_0 at (542, 565) inside blockage b_3",
+      "switch_placement: s_0 at (542, 565) inside blockage b_9",
+      "switch_placement: s_6 at (143, 623) inside blockage b_4",
+      "switch_placement: s_7 at (457, 329) inside blockage b_3",
+      "switch_placement: s_8 at (646, 463) inside blockage b_3",
+      "switch_placement: s_8 at (646, 463) inside blockage b_9",
+      "cycles: Route r_0 contains loop - 's_1' appears multiple times",
+      "cycles: Route r_1 contains loop - 's_5' appears multiple times",
+      "cycles: Route r_2 contains loop - 's_5' appears multiple times",
+      "cycles: Route r_3 contains loop - 's_5' appears multiple times",
+      "cycles: Route r_4 contains loop - 's_5' appears multiple times",
+      "cycles: Route r_5 contains loop - 's_5' appears multiple times",
+      "cycles: Route r_6 contains loop - 's_5' appears multiple times",
+      "cycles: Route r_7 contains loop - 's_5' appears multiple times",
+      "cycles: Route r_8 contains loop - 's_5' appears multiple times",
+      "cycles: Route r_9 contains loop - 's_5' appears multiple times"
+    ],
+    "warnings": [],
+    "checks": {
+      "switch_placement": false,
+      "path_elements": true,
+      "route_connectivity": true,
+      "no_cycles": false
+    }
+  },
+  "is_valid": false
+}

@@ -1,37 +1,19 @@
 #!/usr/bin/env python3
-"""
-NoC Architecture Validation Module
-Validates that generated architectures meet hard constraints.
-"""
+"""NoC Architecture Validation Module"""
 import json
-from typing import Dict, List, Tuple, Set
-
+from typing import Dict, Tuple
 
 class ArchitectureValidator:
-    """Validates NoC architecture constraints."""
-    
     def __init__(self, spec: Dict, output: Dict):
-        """
-        Args:
-            spec: Architecture specification (inits, targets, connectivity, floorplan, blockages)
-            output: Generated output (switches, routing_paths)
-        """
         self.spec = spec
         self.output = output
         self.errors = []
         self.warnings = []
     
     def validate_all(self) -> Tuple[bool, Dict]:
-        """
-        Run all validations.
-        
-        Returns:
-            (is_valid, report_dict)
-        """
         self.errors = []
         self.warnings = []
         
-        # Run all validation checks
         self._validate_switch_placement()
         self._validate_path_elements()
         self._validate_route_connectivity()
@@ -54,11 +36,9 @@ class ArchitectureValidator:
         return is_valid, report
     
     def _has_error(self, error_type: str) -> bool:
-        """Check if specific error type exists."""
         return any(error_type in e for e in self.errors)
     
     def _validate_switch_placement(self):
-        """Check switches are within bounds and not in blockages."""
         floorplan = self.spec.get("floorplan_dim", [1000, 1000])
         max_x, max_y = floorplan[0], floorplan[1]
         blockages = self.spec.get("blockages", {})
@@ -67,13 +47,11 @@ class ArchitectureValidator:
         for switch_id, coords in switches.items():
             x, y = coords["x"], coords["y"]
             
-            # Check bounds
             if not (0 <= x <= max_x and 0 <= y <= max_y):
                 self.errors.append(
-                    f"switch_placement: {switch_id} at ({x}, {y}) outside floorplan bounds ({max_x}, {max_y})"
+                    f"switch_placement: {switch_id} at ({x}, {y}) outside bounds ({max_x}, {max_y})"
                 )
             
-            # Check blockages (simple rectangle collision)
             for block_id, block in blockages.items():
                 bx, by = block["x"], block["y"]
                 bw, bh = block["width"], block["height"]
@@ -84,7 +62,6 @@ class ArchitectureValidator:
                     )
     
     def _validate_path_elements(self):
-        """Check all elements in routing paths exist."""
         inits = set(self.spec.get("inits", {}).keys())
         targets = set(self.spec.get("targets", {}).keys())
         switches = set(self.output.get("switches", {}).keys())
@@ -104,7 +81,6 @@ class ArchitectureValidator:
                     )
     
     def _validate_route_connectivity(self):
-        """Check every required route has a valid path."""
         connectivity = self.spec.get("connectivity", {})
         routing_paths = self.output.get("routing_paths", {})
         
@@ -117,10 +93,9 @@ class ArchitectureValidator:
             
             path = routing_paths[route_id]
             
-            # Check path starts with initiator and ends with target
             if len(path) < 2:
                 self.errors.append(
-                    f"route_connectivity: {route_id} path too short (needs at least init and target)"
+                    f"route_connectivity: {route_id} path too short"
                 )
             elif path[0] != init:
                 self.errors.append(
@@ -132,62 +107,21 @@ class ArchitectureValidator:
                 )
     
     def _validate_no_cycles(self):
-        """Check each individual routing path has no cycles (no loops within a single path)."""
-        # For NoC architectures, we check that individual paths don't loop back on themselves
-        # Multiple paths CAN share switches - that's normal and expected
         routing_paths = self.output.get("routing_paths", {})
         
         for route_id, path in routing_paths.items():
             if not isinstance(path, list) or len(path) < 2:
                 continue
             
-            # Check if the same node appears twice in a single path (self-loop)
             seen_nodes = set()
             for node in path:
                 if node in seen_nodes:
                     self.errors.append(
-                        f"cycles: Route {route_id} contains a loop - node '{node}' appears multiple times"
+                        f"cycles: Route {route_id} contains loop - '{node}' appears multiple times"
                     )
                     break
                 seen_nodes.add(node)
 
-
 def validate_architecture(spec: Dict, output: Dict) -> Tuple[bool, Dict]:
-    """
-    Convenience function to validate an architecture.
-    
-    Args:
-        spec: Architecture specification
-        output: Generated output
-    
-    Returns:
-        (is_valid, report)
-    """
     validator = ArchitectureValidator(spec, output)
     return validator.validate_all()
-
-
-# Command-line usage
-if __name__ == "__main__":
-    import sys
-    
-    if len(sys.argv) != 3:
-        print("Usage: python validate_architecture.py <spec.json> <output.json>")
-        sys.exit(1)
-    
-    with open(sys.argv[1]) as f:
-        spec = json.load(f)
-    
-    with open(sys.argv[2]) as f:
-        output = json.load(f)
-    
-    is_valid, report = validate_architecture(spec, output)
-    
-    print(json.dumps(report, indent=2))
-    
-    if is_valid:
-        print("\n✅ Architecture is VALID")
-        sys.exit(0)
-    else:
-        print(f"\n❌ Architecture is INVALID ({len(report['errors'])} errors)")
-        sys.exit(1)
