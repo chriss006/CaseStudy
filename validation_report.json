@@ -1,0 +1,127 @@
+{
+  "summary": {
+    "total_samples": 10,
+    "valid_count": 10,
+    "invalid_count": 0,
+    "validity_rate": 100.0
+  },
+  "constraint_pass_rates": {
+    "switch_placement": 100.0,
+    "path_elements": 100.0,
+    "route_connectivity": 100.0,
+    "no_cycles": 100.0
+  },
+  "error_analysis": {},
+  "samples": [
+    {
+      "index": 0,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 1,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 2,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 3,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 4,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 5,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 6,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 7,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 8,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 9,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    }
+  ]
+}
