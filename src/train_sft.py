@@ -1,134 +1,118 @@
-import os
-import yaml
-import torch
 import json
-from datasets import load_dataset
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments
-from peft import LoraConfig, get_peft_model
-from trl import SFTTrainer
+import torch
+from datasets import load_dataset, Dataset
+from transformers import (
+    AutoTokenizer,
+    AutoModelForCausalLM,
+    BitsAndBytesConfig,
+    TrainingArguments,
+)
+from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
 
-from format_noc import build_prompt, build_label
+def make_text(example):
+    return {"text": example["spec"] + example["output"]}
 
-def make_text(ex):
-    spec = json.loads(ex["spec"])
-    output = json.loads(ex["output"])
-    return {"text": build_prompt(spec) + build_label(output)}
-
-def find_last_checkpoint(output_dir: str):
-    if not os.path.isdir(output_dir):
-        return None
-    candidates = []
-    for name in os.listdir(output_dir):
-        if name.startswith("checkpoint-"):
-            p = os.path.join(output_dir, name)
-            if os.path.isdir(p):
-                candidates.append(p)
-    if not candidates:
-        return None
-    return sorted(candidates, key=lambda p: int(p.split("-")[-1]))[-1]
-
-
-def main(cfg_path: str, resume: bool = False):
-    with open(cfg_path, "r", encoding="utf-8") as f:
-        cfg = yaml.safe_load(f)
-
-    os.makedirs(cfg["output_dir"], exist_ok=True)
-
-    ds = load_dataset(
-        "json",
-        data_files={
-            "train": "data/processed_str/train.jsonl",
-            "validation": "data/processed_str/valid.jsonl",
-        },
+def main():
+    # Configuration
+    model_name = "mistralai/Mistral-7B-Instruct-v0.2"
+    output_dir = "outputs/mistral7b-noc-switch-qlora"
+    
+    # QLoRA configuration
+    bnb_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_quant_type="nf4",
+        bnb_4bit_compute_dtype=torch.float16,
+        bnb_4bit_use_double_quant=True,
     )
-    ds = ds.map(make_text, remove_columns=ds["train"].column_names)
-
-    tok = AutoTokenizer.from_pretrained(cfg["model_name"], use_fast=True)
-    if tok.pad_token is None:
-        tok.pad_token = tok.eos_token
-    tok.padding_side = 'right'
-
-    quant_cfg = BitsAndBytesConfig(
-        load_in_4bit=cfg["load_in_4bit"],
-        bnb_4bit_quant_type=cfg["bnb_4bit_quant_type"],
-        bnb_4bit_compute_dtype=getattr(torch, cfg["bnb_4bit_compute_dtype"]),
-        bnb_4bit_use_double_quant=cfg["bnb_4bit_use_double_quant"],
-    )
-
-    model = AutoModelForCausalLM.from_pretrained(
-        cfg["model_name"],
-        quantization_config=quant_cfg,
-        device_map="auto",
-        torch_dtype=torch.bfloat16 if cfg["bnb_4bit_compute_dtype"] == "bfloat16" else torch.float16,
-    )
-    model.config.use_cache = False
-
-    lora_cfg = LoraConfig(
-        r=cfg["lora_r"],
-        lora_alpha=cfg["lora_alpha"],
-        lora_dropout=cfg["lora_dropout"],
+    
+    # LoRA configuration
+    peft_config = LoraConfig(
+        r=8,
+        lora_alpha=16,
+        lora_dropout=0.05,
+        target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
         bias="none",
         task_type="CAUSAL_LM",
-        target_modules=cfg["lora_target_modules"],
     )
-    model = get_peft_model(model, lora_cfg)
+    
+    # Load tokenizer and model
+    print("Loading tokenizer...")
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer.pad_token = tokenizer.eos_token
+    tokenizer.padding_side = "right"
+    
+    print("Loading model...")
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        quantization_config=bnb_config,
+        device_map="auto",
+        trust_remote_code=True,
+        offload_buffers=True,
+    )
+    model = prepare_model_for_kbit_training(model)
+    model = get_peft_model(model, peft_config)
+    
+    # Load datasets
+    print("Loading datasets...")
+    train_data = []
+    with open("data/processed_str_output/train.jsonl", "r") as f:
+        for line in f:
+            train_data.append(json.loads(line))
+    
+    valid_data = []
+    with open("data/processed_str_output/valid.jsonl", "r") as f:
+        for line in f:
+            valid_data.append(json.loads(line))
+    
+    train_dataset = Dataset.from_list(train_data).map(make_text, remove_columns=["id","spec", "output"])
+    valid_dataset = Dataset.from_list(valid_data).map(make_text, remove_columns=["id", "spec", "output"])
+   
+    print(f"Train samples: {len(train_dataset)}")
+    print(f"Valid samples: {len(valid_dataset)}")
 
+        #num_train_epochs=3,
+        #per_device_train_batch_size=1,
+        #gradient_accumulation_steps=16,
 
-
-    args = TrainingArguments(
-        output_dir=cfg["output_dir"],
-        num_train_epochs=cfg["num_train_epochs"],
-        per_device_train_batch_size=cfg["per_device_train_batch_size"],
-        per_device_eval_batch_size=cfg["per_device_eval_batch_size"],
-        gradient_accumulation_steps=cfg["gradient_accumulation_steps"],
-        learning_rate=cfg["learning_rate"],
-        warmup_ratio=cfg["warmup_ratio"],
-        weight_decay=cfg["weight_decay"],
-        lr_scheduler_type=cfg["lr_scheduler_type"],
-        logging_dir=os.path.join(cfg["output_dir"], "logs"),
-        logging_first_step=True,
-        logging_strategy='steps',
-        logging_steps=cfg["logging_steps"],
-        evaluation_strategy="steps",
-        eval_steps=cfg["eval_steps"],
-        save_strategy="steps",
-        save_steps=cfg["save_steps"],
-        save_total_limit=cfg["save_total_limit"],
+    # Training arguments
+    training_args = TrainingArguments(
+        output_dir=output_dir,
+        num_train_epochs=1,
+        per_device_train_batch_size=4,
+        gradient_accumulation_steps=1,
+        max_steps=5,
+        learning_rate=2e-4,
+        logging_steps=10,
+        save_strategy="epoch",
+        evaluation_strategy="epoch",
+        fp16=True,
         optim="paged_adamw_8bit",
+        warmup_ratio=0.03,
+        lr_scheduler_type="cosine",
         report_to="none",
-        seed=cfg["seed"],
-        bf16=(cfg["bnb_4bit_compute_dtype"] == "bfloat16" and torch.cuda.is_available()),
-        fp16=(cfg["bnb_4bit_compute_dtype"] != "bfloat16" and torch.cuda.is_available()),
     )
-
+    
+    # Create trainer
     trainer = SFTTrainer(
         model=model,
-        tokenizer=tok,
-        train_dataset=ds["train"],
-        eval_dataset=ds["validation"],
-        dataset_text_field='text',
-        max_seq_length=cfg["max_seq_length"],
-        packing=False,
-        args=args,
+        args=training_args,
+        train_dataset=train_dataset,
+        eval_dataset=valid_dataset,
+        tokenizer=tokenizer,
+        max_seq_length=1024,
+        dataset_text_field="text",
     )
-
-    if resume:
-        ckpt = find_last_checkpoint(cfg["output_dir"])
-        print("Resume from:", ckpt)
-        if ckpt is None:
-          trainer.train()
-        else:
-          trainer.train(resume_from_checkpoint=ckpt)
-    else:
-        trainer.train()
-    trainer.save_model(cfg["output_dir"])
-    tok.save_pretrained(cfg["output_dir"])
-    model.save_pretrained(os.path.join(cfg["output_dir"], "adapter"))
+    
+    # Train
+    print("Starting training...")
+    trainer.train()
+    
+    # Save model
+    print("Saving model...")
+    trainer.save_model()
+    tokenizer.save_pretrained(output_dir)
+    print(f"Model saved to {output_dir}")
 
 if __name__ == "__main__":
-    import argparse
-    p = argparse.ArgumentParser()
-    p.add_argument("--config", type=str, default="configs/mistral7b_qlora_sft.yaml")
-    p.add_argument("--resume", action="store_true", help="resume from last checkpoint")
-    a = p.parse_args()
-    main(a.config, resume=a.resume)
+    main()
