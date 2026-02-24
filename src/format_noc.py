@@ -13,15 +13,22 @@ def _stable_spec(spec: Dict[str, Any]) -> Dict[str, Any]:
             out[k] = spec[k]
     return out
 
-def build_prompt(spec: dict) -> str:
+def build_prompt(spec: Dict[str, Any]) -> str:
+    spec = _stable_spec(spec)
     spec_str = json.dumps(spec, ensure_ascii=False, separators=(",", ":"))
     return (
-        "Return ONLY valid JSON. No extra text.\n"
-        "Schema:\n"
-        "{\"switches\":{\"s_0\":{\"x\":0,\"y\":0},\"s_1\":{\"x\":0,\"y\":0}}}\n"
-        "Use keys s_0, s_1, ... and integer x,y.\n"
-        "Spec:\n"
+        "You are an expert NoC physical designer.\n"
+        "Given an architecture specification in JSON, output ONLY a JSON object:\n"
+        "{\"switches\": {\"s_0\": {\"x\": int, \"y\": int}, ...}}\n"
+        "Rules:\n"
+        "- Output JSON only. No extra text.\n"
+        "- Coordinates must be integers.\n"
+        "- Keep switches inside floorplan and avoid blockages.\n"
+        "\n"
+        "-- Arch Specification --\n"
         f"{spec_str}\n"
+        "\n"
+        "-- Output (JSON only) --\n"
     )
 
 def build_label(switches: Dict[str, Any]) -> str:
