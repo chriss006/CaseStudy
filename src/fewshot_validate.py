@@ -32,7 +32,7 @@ CKPT_DIR = "/kaggle/input/datasets/chetana092004/llama7b-stage1-ckpt/v2/checkpoi
 
 
 # How many samples to test
-N_SAMPLES = 2000
+N_SAMPLES = 500
 
 # GPU batch size
 BATCH_SIZE = 4
