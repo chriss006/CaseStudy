@@ -2,9 +2,9 @@ import os
 import json
 import yaml
 import torch
-from tqdm.auto import tqdm
 from typing import Any, Dict, Optional, List, Tuple
 
+from tqdm.notebook import tqdm
 from datasets import load_dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from peft import PeftModel
@@ -22,13 +22,9 @@ CFG_PATH = "/kaggle/working/CaseStudy/configs/llama7b.yaml"
 OUT_DIR = "/kaggle/working/CaseStudy/outputs/fewshot_stage2_validation"
 CKPT_DIR = "/kaggle/input/datasets/chetana092004/llama7b-stage1-ckpt/v2/checkpoint-3200"
 
-N_SAMPLES = 10 #number of samples
+N_SAMPLES = 10
 BATCH_SIZE = 2
-
-
 MAX_NEW_TOKENS = 1024
-
-
 N_SHOTS = 3
 
 PRED_PATH = os.path.join(OUT_DIR, "predictions.jsonl")
@@ -37,40 +33,53 @@ STATS_PATH = os.path.join(OUT_DIR, "stats.json")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 
-def extract_first_json_object(text: str) -> Optional[str]:
+# =====================================================
+# JSON EXTRACTION
+# =====================================================
+
+def extract_json_with_key(text: str, key_substr: str = "\"switches\"") -> Optional[str]:
     """
-    Return the first complete JSON object substring using brace stack.
-    This is far safer than find('{') ... rfind('}').
+    Return the first complete JSON object substring (balanced braces) that contains key_substr.
+    This avoids grabbing stray JSON fragments before the real output.
     """
-    start = text.find("{")
-    if start == -1:
-        return None
+    i = 0
+    L = len(text)
 
-    depth = 0
-    in_str = False
-    esc = False
+    while i < L:
+        start = text.find("{", i)
+        if start == -1:
+            return None
 
-    for i in range(start, len(text)):
-        c = text[i]
+        depth = 0
+        in_str = False
+        esc = False
 
-        if in_str:
-            if esc:
-                esc = False
-            elif c == "\\":
-                esc = True
-            elif c == "\"":
-                in_str = False
-            continue
-        else:
-            if c == "\"":
-                in_str = True
+        for j in range(start, L):
+            c = text[j]
+            if in_str:
+                if esc:
+                    esc = False
+                elif c == "\\":
+                    esc = True
+                elif c == "\"":
+                    in_str = False
                 continue
-            if c == "{":
-                depth += 1
-            elif c == "}":
-                depth -= 1
-                if depth == 0:
-                    return text[start:i+1]
+            else:
+                if c == "\"":
+                    in_str = True
+                    continue
+                if c == "{":
+                    depth += 1
+                elif c == "}":
+                    depth -= 1
+                    if depth == 0:
+                        cand = text[start:j+1]
+                        if key_substr in cand:
+                            return cand
+                        i = j + 1
+                        break
+        else:
+            return None
 
     return None
 
@@ -86,6 +95,10 @@ def batchify(lst: List[Any], n: int):
     for i in range(0, len(lst), n):
         yield lst[i:i+n]
 
+
+# =====================================================
+# VALIDATION HELPERS
+# =====================================================
 
 def point_in_blockage(x: int, y: int, b: Dict[str, Any]) -> bool:
     bx, by = int(b["x"]), int(b["y"])
@@ -123,10 +136,11 @@ def validate_switches(pred: Dict[str, Any], spec: Dict[str, Any]) -> Dict[str, b
             all_in_bounds = False
             all_outside = False
             break
+
         x, y = coord["x"], coord["y"]
+
         if not isinstance(x, int) or not isinstance(y, int):
             all_int = False
-            # still try to cast
             try:
                 x, y = int(x), int(y)
             except Exception:
@@ -186,7 +200,7 @@ def validate_routing(pred: Dict[str, Any], spec: Dict[str, Any]) -> Dict[str, bo
 
     # 2) all node ids exist
     nodes_ok = True
-    for r_id, p in paths.items():
+    for _, p in paths.items():
         if not isinstance(p, list) or len(p) < 2:
             nodes_ok = False
             break
@@ -216,6 +230,10 @@ def validate_routing(pred: Dict[str, Any], spec: Dict[str, Any]) -> Dict[str, bo
     return ok
 
 
+# =====================================================
+# LOAD CONFIG / MODEL
+# =====================================================
+
 with open(CFG_PATH) as f:
     cfg = yaml.safe_load(f)
 
@@ -243,32 +261,32 @@ print("Loading LoRA adapter...")
 model = PeftModel.from_pretrained(base, CKPT_DIR)
 model.eval()
 
+
+# =====================================================
+# LOAD DATA
+# =====================================================
+
 print("Loading dataset...")
 raw = load_dataset("text", data_files={"test": TEST_FP})["test"]
 raw = raw.select(range(min(N_SAMPLES, len(raw))))
-
 data = [json.loads(x["text"]) for x in raw]
 
+
 def get_spec(row: Dict[str, Any]) -> Dict[str, Any]:
-    # common patterns
     if "spec" in row and isinstance(row["spec"], dict):
         return row["spec"]
     if "Arch Specification" in row and isinstance(row["Arch Specification"], dict):
         return row["Arch Specification"]
-    # fallback
     raise KeyError("Cannot find spec in row. Expected row['spec'].")
 
+
 def get_gt_network(row: Dict[str, Any]) -> Tuple[Optional[Dict[str, Any]], Optional[Dict[str, Any]]]:
-    # some datasets store gt in flat keys
     gt_sw = row.get("switches")
     gt_rt = row.get("routing_paths")
-
-    # or inside "network"
     net = row.get("network")
     if isinstance(net, dict):
         gt_sw = gt_sw or net.get("switches")
         gt_rt = gt_rt or net.get("routing_paths")
-
     return gt_sw, gt_rt
 
 
@@ -289,8 +307,10 @@ stats = {
 
 print("Starting inference...")
 
+total_batches = (len(data) + BATCH_SIZE - 1) // BATCH_SIZE
+
 with open(PRED_PATH, "w", encoding="utf-8") as fout:
-    for batch in tqdm(list(batchify(data, BATCH_SIZE))):
+    for batch in tqdm(batchify(data, BATCH_SIZE), total=total_batches, desc="Batches"):
 
         specs = [get_spec(r) for r in batch]
 
@@ -312,24 +332,23 @@ with open(PRED_PATH, "w", encoding="utf-8") as fout:
                 **inputs,
                 max_new_tokens=MAX_NEW_TOKENS,
                 do_sample=False,
-                temperature=0.0,
                 pad_token_id=tok.eos_token_id,
                 eos_token_id=tok.eos_token_id,
             )
 
-        # IMPORTANT: slice by token length, not string length
+        # Slice by token length (correct)
         input_len = inputs["input_ids"].shape[1]
         gen_only = outputs[:, input_len:]
         pred_texts = tok.batch_decode(gen_only, skip_special_tokens=True)
 
-        for row, spec, prompt, pred_text in zip(batch, specs, prompts, pred_texts):
-            cleaned = extract_first_json_object(pred_text.strip())
+        for row, spec, pred_text in zip(batch, specs, pred_texts):
+            pred_text = pred_text.strip()
+            cleaned = extract_json_with_key(pred_text, key_substr="\"switches\"")
             pred_json = safe_json_load(cleaned) if cleaned else None
 
             gt_sw, gt_rt = get_gt_network(row)
 
             stats["n_total"] += 1
-
             ok_json = pred_json is not None
             stats["json_ok"] += int(ok_json)
 
@@ -365,8 +384,10 @@ with open(PRED_PATH, "w", encoding="utf-8") as fout:
                 "checks": {**sw_ok, **rt_ok},
             }, ensure_ascii=False) + "\n")
 
+
 def rate(x: int, n: int) -> float:
     return round(x / n, 4) if n else 0.0
+
 
 n = stats["n_total"]
 report = {
