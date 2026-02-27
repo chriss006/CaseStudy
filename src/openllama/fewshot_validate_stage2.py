@@ -16,7 +16,7 @@ from fewshot_noc_stage2 import build_fewshot_stage2_prompt
 # CONFIG (EDIT THESE)
 # =====================================================
 
-TEST_FP = "/kaggle/input/datasets/haehyunlee/noc-stage2/data/step2_full/test.jsonl"
+TEST_FP = "/kaggle/working/step2_full/test.jsonl"
 
 CFG_PATH = "/kaggle/working/CaseStudy/configs/llama7b.yaml"
 OUT_DIR = "/kaggle/working/CaseStudy/outputs/fewshot_stage2_validation"
