@@ -22,8 +22,8 @@ CFG_PATH = "/kaggle/working/CaseStudy/configs/llama7b.yaml"
 OUT_DIR = "/kaggle/working/CaseStudy/outputs/fewshot_stage2_validation"
 CKPT_DIR = "/kaggle/input/datasets/chetana092004/llama7b-stage1-ckpt/v2/checkpoint-3200"
 
-N_SAMPLES = 10
-BATCH_SIZE = 2
+N_SAMPLES = 5
+BATCH_SIZE = 1
 MAX_NEW_TOKENS = 1024
 N_SHOTS = 3
 
