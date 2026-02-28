@@ -4,7 +4,7 @@ from typing import Any, Dict, List, Tuple, Optional
 SPEC_KEY_ORDER = ["inits", "targets", "connectivity", "floorplan_dim", "blockages"]
 
 def _stable_spec(spec: Dict[str, Any]) -> Dict[str, Any]:
-    out = {}
+    out: Dict[str, Any] = {}
     for k in SPEC_KEY_ORDER:
         if k in spec:
             out[k] = spec[k]
@@ -16,10 +16,27 @@ def _stable_spec(spec: Dict[str, Any]) -> Dict[str, Any]:
 def _dumps_compact(obj: Any) -> str:
     return json.dumps(obj, ensure_ascii=False, separators=(",", ":"))
 
-def _strip_blockages_for_prompt(spec: Dict[str, Any]) -> Dict[str, Any]:
+def _compress_blockages_for_prompt(spec: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Keep blockages but compress to reduce tokens:
+      blockages_compact: [[x,y,w,h], ...]
+    Also keep original keys inits/targets/connectivity/floorplan_dim.
+    """
     spec = dict(spec)
-    spec["blockages"] = {} 
+    blockages = spec.get("blockages", {}) or {}
+    compact: List[List[int]] = []
+    for _, b in blockages.items():
+        # tolerate int/float inputs, cast to int for prompt clarity
+        compact.append([int(b["x"]), int(b["y"]), int(b["width"]), int(b["height"])])
+    # Stable ordering for determinism (helps caching/debug)
+    compact.sort(key=lambda r: (r[0], r[1], r[2], r[3]))
+
+    # Replace heavy dict with compact list
+    spec["blockages_compact"] = compact
+    spec.pop("blockages", None)
     return spec
+
+# ---------------- Example ----------------
 
 EX1_SPEC = {
     "inits": {
@@ -89,112 +106,76 @@ DEFAULT_EXAMPLES: List[Tuple[Dict[str, Any], str]] = [
     (EX1_SPEC, EX1_OUT_TEXT),
 ]
 
+# ---------------- Prompt builder ----------------
+
 def build_fewshot_stage2_text_prompt(
     test_spec: Dict[str, Any],
     examples: Optional[List[Tuple[Dict[str, Any], str]]] = None,
     n_shots: int = 1,
+    compress_blockages: bool = True,
 ) -> str:
+    """
+    Few-shot prompt for stage2: LLM predicts BOTH switch positions and routes.
+
+    Key fixes vs your current code:
+      1) Do NOT strip blockages. (You need them to place switches outside and route around.)
+      2) Actually include the test_spec JSON in the NOW SOLVE section.
+      3) Remove dummy outputs that bias the model (s_0 0 0 / r_0 i_0 t_0).
+      4) Explicitly specify Manhattan-L (2-segment) connectivity rule.
+    """
     if examples is None:
         examples = DEFAULT_EXAMPLES
     n_shots = max(0, min(n_shots, len(examples)))
 
-    test_spec = _stable_spec(test_spec)
-    test_spec_prompt = _strip_blockages_for_prompt(test_spec)
+    def prep_spec(s: Dict[str, Any]) -> Dict[str, Any]:
+        s = _stable_spec(s)
+        return _compress_blockages_for_prompt(s) if compress_blockages else s
+
+    test_spec_prompt = prep_spec(test_spec)
 
     header = (
-      "Output format must be EXACT.\n"
-      "Return ONLY the block between BEGIN_OUTPUT and END.\n"
-      "Switch line: s_k x y (integers).\n"
-      "Route line: r_m node0 node1 ... nodeN.\n"
-      "Must include ALL routes in connectivity.\n\n"
+        "Output format must be EXACT.\n"
+        "Return ONLY the block between BEGIN_OUTPUT and END.\n"
+        "\n"
+        "SWITCHES section:\n"
+        "- Each line: s_k x y (integers).\n"
+        "- All switches must be within floorplan_dim and strictly OUTSIDE every blockage rectangle.\n"
+        "\n"
+        "ROUTES section:\n"
+        "- Each line: r_m node0 node1 ... nodeN\n"
+        "- Must include ALL routes listed in connectivity (same route ids).\n"
+        "- Each route must start with its init node and end with its target node.\n"
+        "- Intermediate nodes can only be switches you output: s_0..s_M (do not invent other ids).\n"
+        "\n"
+        "Manhattan-L rule (HARD):\n"
+        "- For every consecutive pair of nodes (A->B) in a route, A(x1,y1) to B(x2,y2) must be connectable\n"
+        "  by an L-shape with exactly TWO axis-aligned segments:\n"
+        "    option1: (x1,y1)->(x2,y1)->(x2,y2)\n"
+        "    option2: (x1,y1)->(x1,y2)->(x2,y2)\n"
+        "  Choose an option that does NOT intersect any blockage rectangle.\n"
+        "  If neither option works, insert additional switches so that every hop satisfies this rule.\n"
+        "\n"
+        "Notes on blockages:\n"
+        "- If blockages_compact is provided, each blockage is [x,y,width,height].\n"
+        "- A point is inside a blockage if x in [bx, bx+width] and y in [by, by+height] (avoid borders too).\n"
+        "\n"
     )
 
-    blocks = [header]
+    blocks: List[str] = [header]
 
     for i in range(n_shots):
         ex_spec, ex_out_text = examples[i]
-        ex_spec = _stable_spec(ex_spec)
-        ex_spec_prompt = _strip_blockages_for_prompt(ex_spec)
+        ex_spec_prompt = prep_spec(ex_spec)
 
-        blocks.append("=== EXAMPLE ===\n")
-        blocks.append(_dumps_compact(ex_spec_prompt) + "\n")
-        blocks.append(ex_out_text.strip() + "\n\n")
-
-    blocks.append("=== NOW SOLVE ===\n")
-    blocks.append("BEGIN_OUTPUT\nSWITCHES\n")
-    blocks.append("s_0 0 0\n")  
-    blocks.append("ROUTES\n")
-    blocks.append("r_0 i_0 t_0\n")
-    blocks.append("END\n")
-
-    return "".join(blocks).strip()
-
-
-
-# ==== PATCHED VERSION (force BEGIN_OUTPUT) ====
-def build_fewshot_stage2_text_prompt(test_spec, examples=None, n_shots=1):
-    import json
-    from typing import Any, Dict, List, Tuple, Optional
-
-    SPEC_KEY_ORDER = ["inits", "targets", "connectivity", "floorplan_dim", "blockages"]
-
-    def _stable_spec(spec: Dict[str, Any]) -> Dict[str, Any]:
-        out = {}
-        for k in SPEC_KEY_ORDER:
-            if k in spec:
-                out[k] = spec[k]
-        for k in spec.keys():
-            if k not in out:
-                out[k] = spec[k]
-        return out
-
-    def _dumps_compact(obj: Any) -> str:
-        return json.dumps(obj, ensure_ascii=False, separators=(",", ":"))
-
-    def _strip_blockages_for_prompt(spec: Dict[str, Any]) -> Dict[str, Any]:
-        spec = dict(spec)
-        spec["blockages"] = {}
-        return spec
-
-    # NOTE: rely on existing DEFAULT_EXAMPLES if present in module
-    if examples is None:
-        examples = globals().get("DEFAULT_EXAMPLES", [])
-
-    n_shots = max(0, min(n_shots, len(examples)))
-
-    test_spec = _stable_spec(test_spec)
-    test_spec_prompt = _strip_blockages_for_prompt(test_spec)
-
-    header = (
-        "You are an expert NoC physical designer.\n"
-        "Given an architecture specification, output switch placement and routing paths.\n\n"
-        "IMPORTANT FORMAT RULES (MUST FOLLOW EXACTLY):\n"
-        "1) Output TEXT ONLY (not JSON).\n"
-        "2) The output MUST start with 'BEGIN_OUTPUT' on its own line.\n"
-        "3) Then exactly these sections in order:\n"
-        "   SWITCHES\n"
-        "   <one per line: s_k x y>\n"
-        "   ROUTES\n"
-        "   <one per line: r_m node0 node1 ... nodeN>\n"
-        "   END\n"
-        "4) x and y must be integers.\n"
-        "5) Every route r_m MUST start with its init i_* and end with its target t_* exactly as in connectivity.\n"
-        "6) Route nodes can only be i_*, s_*, t_*.\n\n"
-        "Spec JSON (blockages may be omitted here to save space).\n"
-    )
-
-    blocks = [header]
-
-    for i in range(n_shots):
-        ex_spec, ex_out_text = examples[i]
-        ex_spec = _stable_spec(ex_spec)
-        ex_spec_prompt = _strip_blockages_for_prompt(ex_spec)
         blocks.append("=== EXAMPLE ===\n")
         blocks.append(_dumps_compact(ex_spec_prompt) + "\n")
         blocks.append(ex_out_text.strip() + "\n\n")
 
     blocks.append("=== NOW SOLVE ===\n")
     blocks.append(_dumps_compact(test_spec_prompt) + "\n")
-    blocks.append("BEGIN_OUTPUT\nSWITCHES\n")  # FORCE
+    blocks.append("BEGIN_OUTPUT\n")
+    blocks.append("SWITCHES\n")
+    blocks.append("ROUTES\n")
+    blocks.append("END\n")
 
     return "".join(blocks).strip()
