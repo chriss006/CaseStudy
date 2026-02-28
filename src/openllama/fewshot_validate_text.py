@@ -13,12 +13,10 @@ from peft import PeftModel
 from fewshot_noc_text import build_fewshot_stage2_text_prompt
 
 
-# =====================================================
-# CONFIG (EDIT THESE)
-# =====================================================
-TEST_FP = "/kaggle/working/step2_full/test.jsonl"
+# CONFIG 
+TEST_FP = "/kaggle/input/datasets/haehyunlee/noc-singleshot/kaggle/working/step2_full/test.jsonl"
 CFG_PATH = "/kaggle/working/CaseStudy/configs/llama7b.yaml"
-OUT_DIR = "/kaggle/working/CaseStudy/outputs/fewshot_stage2_text_validation"
+OUT_DIR = "/kaggle/working/CaseStudy/outputs/fewshot_stage2_text/"
 CKPT_DIR = "/kaggle/input/datasets/chetana092004/llama7b-stage1-ckpt/v2/checkpoint-3200"
 
 N_SAMPLES = 5
