@@ -2,7 +2,7 @@ model_name: openlm-research/open_llama_7b_v2
 output_dir: /kaggle/input/datasets/haehyunlee/llama7b-fewshot-stage2-ckpt/v1
 
 seed: 42
-max_seq_length: 512
+max_seq_length: 1024
 num_train_epochs: 3
 per_device_train_batch_size: 1
 per_device_eval_batch_size: 1
