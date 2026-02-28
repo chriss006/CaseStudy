@@ -128,3 +128,73 @@ def build_fewshot_stage2_text_prompt(
     blocks.append("END\n")
 
     return "".join(blocks).strip()
+
+
+
+# ==== PATCHED VERSION (force BEGIN_OUTPUT) ====
+def build_fewshot_stage2_text_prompt(test_spec, examples=None, n_shots=1):
+    import json
+    from typing import Any, Dict, List, Tuple, Optional
+
+    SPEC_KEY_ORDER = ["inits", "targets", "connectivity", "floorplan_dim", "blockages"]
+
+    def _stable_spec(spec: Dict[str, Any]) -> Dict[str, Any]:
+        out = {}
+        for k in SPEC_KEY_ORDER:
+            if k in spec:
+                out[k] = spec[k]
+        for k in spec.keys():
+            if k not in out:
+                out[k] = spec[k]
+        return out
+
+    def _dumps_compact(obj: Any) -> str:
+        return json.dumps(obj, ensure_ascii=False, separators=(",", ":"))
+
+    def _strip_blockages_for_prompt(spec: Dict[str, Any]) -> Dict[str, Any]:
+        spec = dict(spec)
+        spec["blockages"] = {}
+        return spec
+
+    # NOTE: rely on existing DEFAULT_EXAMPLES if present in module
+    if examples is None:
+        examples = globals().get("DEFAULT_EXAMPLES", [])
+
+    n_shots = max(0, min(n_shots, len(examples)))
+
+    test_spec = _stable_spec(test_spec)
+    test_spec_prompt = _strip_blockages_for_prompt(test_spec)
+
+    header = (
+        "You are an expert NoC physical designer.\n"
+        "Given an architecture specification, output switch placement and routing paths.\n\n"
+        "IMPORTANT FORMAT RULES (MUST FOLLOW EXACTLY):\n"
+        "1) Output TEXT ONLY (not JSON).\n"
+        "2) The output MUST start with 'BEGIN_OUTPUT' on its own line.\n"
+        "3) Then exactly these sections in order:\n"
+        "   SWITCHES\n"
+        "   <one per line: s_k x y>\n"
+        "   ROUTES\n"
+        "   <one per line: r_m node0 node1 ... nodeN>\n"
+        "   END\n"
+        "4) x and y must be integers.\n"
+        "5) Every route r_m MUST start with its init i_* and end with its target t_* exactly as in connectivity.\n"
+        "6) Route nodes can only be i_*, s_*, t_*.\n\n"
+        "Spec JSON (blockages may be omitted here to save space).\n"
+    )
+
+    blocks = [header]
+
+    for i in range(n_shots):
+        ex_spec, ex_out_text = examples[i]
+        ex_spec = _stable_spec(ex_spec)
+        ex_spec_prompt = _strip_blockages_for_prompt(ex_spec)
+        blocks.append("=== EXAMPLE ===\n")
+        blocks.append(_dumps_compact(ex_spec_prompt) + "\n")
+        blocks.append(ex_out_text.strip() + "\n\n")
+
+    blocks.append("=== NOW SOLVE ===\n")
+    blocks.append(_dumps_compact(test_spec_prompt) + "\n")
+    blocks.append("BEGIN_OUTPUT\nSWITCHES\n")  # FORCE
+
+    return "".join(blocks).strip()

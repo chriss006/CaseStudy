@@ -1,0 +1,11 @@
+{
+  "n_total": 2,
+  "parsed_ok_rate": 0.0,
+  "has_switches_rate": 0.0,
+  "has_routing_paths_rate": 0.0,
+  "switches_in_bounds_rate": 0.0,
+  "switches_outside_blockages_rate": 0.0,
+  "routes_match_connectivity_rate": 0.0,
+  "route_nodes_exist_rate": 0.0,
+  "pred_file": "/kaggle/working/CaseStudy/outputs/fewshot_stage2_text/predictions.jsonl"
+}
