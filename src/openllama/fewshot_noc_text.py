@@ -102,21 +102,11 @@ def build_fewshot_stage2_text_prompt(
     test_spec_prompt = _strip_blockages_for_prompt(test_spec)
 
     header = (
-        "You are an expert NoC physical designer.\n"
-        "Given an architecture specification, output switch placement and routing paths.\n\n"
-        "IMPORTANT FORMAT RULES (MUST FOLLOW EXACTLY):\n"
-        "1) Output TEXT ONLY (not JSON).\n"
-        "2) The output MUST start with 'BEGIN_OUTPUT' on its own line.\n"
-        "3) Then exactly these sections in order:\n"
-        "   SWITCHES\n"
-        "   <one per line: s_k x y>\n"
-        "   ROUTES\n"
-        "   <one per line: r_m node0 node1 ... nodeN>\n"
-        "   END\n"
-        "4) x and y must be integers.\n"
-        "5) Every route r_m MUST start with its init i_* and end with its target t_* exactly as in connectivity.\n"
-        "6) Route nodes can only be i_*, s_*, t_*.\n\n"
-        "Spec JSON (blockages may be omitted here to save space; still avoid obstacles implicitly).\n"
+      "Output format must be EXACT.\n"
+      "Return ONLY the block between BEGIN_OUTPUT and END.\n"
+      "Switch line: s_k x y (integers).\n"
+      "Route line: r_m node0 node1 ... nodeN.\n"
+      "Must include ALL routes in connectivity.\n\n"
     )
 
     blocks = [header]
@@ -131,7 +121,10 @@ def build_fewshot_stage2_text_prompt(
         blocks.append(ex_out_text.strip() + "\n\n")
 
     blocks.append("=== NOW SOLVE ===\n")
-    blocks.append(_dumps_compact(test_spec_prompt) + "\n")
-    blocks.append("BEGIN_OUTPUT\nSWITCHES\n")  # 여기부터 강제 시작!
+    blocks.append("BEGIN_OUTPUT\nSWITCHES\n")
+    blocks.append("s_0 0 0\n")  
+    blocks.append("ROUTES\n")
+    blocks.append("r_0 i_0 t_0\n")
+    blocks.append("END\n")
 
     return "".join(blocks).strip()
