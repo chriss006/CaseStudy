@@ -22,7 +22,7 @@ CKPT_DIR = "/kaggle/input/datasets/chetana092004/llama7b-stage1-ckpt/v2/checkpoi
 N_SAMPLES = 5
 BATCH_SIZE = 1
 MAX_NEW_TOKENS = 256
-N_SHOTS = 3
+N_SHOTS = 1
 
 PRED_PATH = os.path.join(OUT_DIR, "predictions.jsonl")
 STATS_PATH = os.path.join(OUT_DIR, "stats.json")
