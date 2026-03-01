@@ -78,12 +78,11 @@ def build_fewshot_stage2_text_prompt(
 
     header = (
         "Return ONLY between BEGIN_OUTPUT and END.\n"
-        "SWITCHES lines: s_k x y (int).\n"
-        "If n_switches is provided: output exactly n_switches switches: s_0..s_{n_switches-1}.\n"
+        "Switch line: s_k x y (integers).\n"
         "If free_points is provided: every switch coordinate MUST be chosen from free_points.\n"
-        "All switches inside dim and outside all bl rectangles.\n"
-        "ROUTES: one line per co entry, keep r_id/src/dst exactly. Only replace '...'.\n"
-        "Each hop uses Manhattan-L (2 segments) and must not cross any blockage.\n"
+        "All switches must be inside floorplan_dim and outside all blockages.\n"
+        "Route line: r_m node0 ... nodeN.\n"
+        "Must include ALL routes in connectivity.\n"
     )
 
     blocks: List[str] = [header]
