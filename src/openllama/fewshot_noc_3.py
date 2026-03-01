@@ -53,50 +53,47 @@ r_10 i_4 s_2 s_5 t_4
 END
 """.strip()
 
-def build_fewshot_stage2_text_prompt(
-    test_spec: Dict[str, Any],
-    n_shots: int = 1,
-) -> str:
-    W, H = test_spec["floorplan_dim"]
+def build_fewshot_stage2_text_prompt(spec: Dict[str, Any], n_shots: int = 1) -> str:
+    # pack
+    W, H = spec["floorplan_dim"]
+    inits = [[k, int(v["x"]), int(v["y"])] for k,v in spec["inits"].items()]
+    tgs   = [[k, int(v["x"]), int(v["y"])] for k,v in spec["targets"].items()]
+    inits.sort(key=lambda x: x[0]); tgs.sort(key=lambda x: x[0])
 
-    conn_list = _pack_connectivity(test_spec.get("connectivity", {}) or {})
+    co = [[r, pair[0], pair[1]] for r, pair in spec["connectivity"].items()]
+    co.sort(key=lambda x: x[0])
 
-    packed = {
-        "dim": [int(W), int(H)],
-        "in": _pack_points(test_spec.get("inits", {}) or {}),
-        "tg": _pack_points(test_spec.get("targets", {}) or {}),
-        "co": conn_list,
-        "bl": _pack_blockages(test_spec.get("blockages", {}) or {}),
-    }
+    bl = [[int(b["x"]), int(b["y"]), int(b["width"]), int(b["height"])] for b in (spec.get("blockages") or {}).values()]
+    bl.sort()
 
-    # Optional: if you add these in spec generation
-    if "n_switches" in test_spec:
-        packed["n_switches"] = int(test_spec["n_switches"])
-    if "free_points" in test_spec:
-        # expects [[x,y],...]
-        packed["free_points"] = test_spec["free_points"]
+    # free_points: keep small to fit context
+    fp = spec.get("free_points", [])
+    if isinstance(fp, list) and len(fp) > 96:
+        fp = fp[:96]  # hard cap
+
+    packed = {"dim":[int(W),int(H)], "in":inits, "tg":tgs, "co":co, "bl":bl, "fp":fp}
 
     header = (
         "Return ONLY between BEGIN_OUTPUT and END.\n"
-        "Switch line: s_k x y (integers).\n"
-        "If free_points is provided: every switch coordinate MUST be chosen from free_points.\n"
-        "All switches must be inside floorplan_dim and outside all blockages.\n"
-        "Route line: r_m node0 ... nodeN.\n"
-        "Must include ALL routes in connectivity.\n"
+        "SWITCHES: output s_0..s_{K-1} with integer x y.\n"
+        "Each switch must use a coordinate from fp (free points).\n"
+        "ROUTES: output one line per co entry, and each route must start/end exactly as in co.\n"
+        "No extra text.\n"
     )
 
-    blocks: List[str] = [header]
-
+    blocks = [header]
     if n_shots >= 1:
         blocks.append("=== EXAMPLE OUTPUT ===\n")
-        blocks.append(EX1_OUT_TEXT + "\n\n")
+        blocks.append(EX1_OUT_TEXT.strip() + "\n\n")
 
+    # NOW SOLVE
     blocks.append("=== NOW SOLVE ===\n")
     blocks.append(_dumps_compact(packed) + "\n")
     blocks.append("BEGIN_OUTPUT\nSWITCHES\n")
 
-    # IMPORTANT: give route template so routes_match_connectivity doesn't fail
-    blocks.append(_routes_template(conn_list) + "\n")
+    # very short route skeleton: r_id src dst only
+    blocks.append("ROUTES\n")
+    for r, src, dst in co:
+        blocks.append(f"{r} {src} {dst}\n")
     blocks.append("END\n")
-
-    return "".join(blocks).strip()
+    return "".join(blocks)
