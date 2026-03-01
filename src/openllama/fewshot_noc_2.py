@@ -86,5 +86,7 @@ def build_fewshot_stage2_text_prompt(
     blocks.append("=== NOW SOLVE ===\n")
     blocks.append(_dumps_compact(packed) + "\n")
     blocks.append("BEGIN_OUTPUT\nSWITCHES\n")
+    blocks.append("ROUTES\n")
+    blocks.append("END\n")
 
     return "".join(blocks).strip()
