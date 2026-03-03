@@ -1,0 +1,567 @@
+{
+  "summary": {
+    "total_samples": 50,
+    "valid_count": 50,
+    "invalid_count": 0,
+    "validity_rate": 100.0
+  },
+  "constraint_pass_rates": {
+    "switch_placement": 100.0,
+    "path_elements": 100.0,
+    "route_connectivity": 100.0,
+    "no_cycles": 100.0
+  },
+  "error_analysis": {},
+  "samples": [
+    {
+      "index": 0,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 1,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 2,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 3,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 4,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 5,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 6,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 7,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 8,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 9,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 10,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 11,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 12,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 13,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 14,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 15,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 16,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 17,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 18,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 19,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 20,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 21,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 22,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 23,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 24,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 25,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 26,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 27,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 28,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 29,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 30,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 31,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 32,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 33,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 34,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 35,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 36,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 37,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 38,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 39,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 40,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 41,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 42,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 43,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 44,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 45,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 46,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 47,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 48,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 49,
+      "valid": true,
+      "errors": [],
+      "checks": {
+        "switch_placement": true,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    }
+  ]
+}
