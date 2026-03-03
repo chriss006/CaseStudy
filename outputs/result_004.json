@@ -150,154 +150,91 @@
   "output": {
     "switches": {
       "s_0": {
-        "x": 726,
-        "y": 119
+        "x": 556,
+        "y": 958
       },
       "s_1": {
-        "x": 774,
-        "y": 462
+        "x": 123,
+        "y": 781
       },
       "s_2": {
-        "x": 355,
-        "y": 421
+        "x": 556,
+        "y": 90
       },
       "s_3": {
-        "x": 351,
-        "y": 224
+        "x": 556,
+        "y": 974
       },
       "s_4": {
-        "x": 244,
-        "y": 685
-      },
-      "s_5": {
-        "x": 517,
-        "y": 766
-      },
-      "s_6": {
-        "x": 851,
-        "y": 727
-      },
-      "s_7": {
-        "x": 689,
-        "y": 596
+        "x": 556,
+        "y": 458
       }
     },
     "routing_paths": {
       "r_0": [
         "i_0",
-        "s_1",
-        "s_0",
-        "s_4",
-        "s_5",
-        "s_3",
-        "s_6",
-        "t_2"
+        "s_2"
       ],
       "r_1": [
         "i_0",
-        "s_1",
-        "s_0",
-        "s_4",
-        "s_5",
-        "s_3",
-        "s_6",
-        "t_3"
+        "s_1"
       ],
       "r_2": [
         "i_1",
-        "s_1",
-        "s_0",
-        "s_2",
-        "s_3",
-        "s_6",
-        "t_2"
+        "s_2"
       ],
       "r_3": [
         "i_1",
-        "s_1",
-        "s_0",
-        "s_2",
-        "s_3",
-        "s_6",
-        "t_1"
+        "s_1"
       ],
       "r_4": [
         "i_2",
-        "s_1",
-        "s_0",
-        "s_4",
-        "s_5",
-        "s_3",
-        "s_6",
-        "t_2"
+        "s_2"
       ],
       "r_5": [
         "i_2",
-        "s_1",
-        "s_0",
-        "s_4",
-        "s_5",
-        "s_3",
-        "s_6",
-        "t_4"
+        "s_1"
       ],
       "r_6": [
         "i_2",
-        "s_1",
-        "s_0",
-        "s_4",
-        "s_5",
-        "s_3",
-        "s_6",
-        "t_1"
+        "s_4"
       ],
       "r_7": [
         "i_3",
-        "s_2",
-        "s_1",
-        "s_3",
-        "s_6",
-        "t_3"
+        "s_4"
       ],
       "r_8": [
         "i_3",
-        "s_1",
-        "s_0",
-        "s_4",
-        "s_5",
-        "s_3",
-        "s_6",
-        "t_0"
+        "s_2"
       ],
       "r_9": [
         "i_4",
-        "s_1",
-        "s_0",
-        "s_4",
-        "s_5",
-        "s_3",
-        "s_6",
-        "t_4"
+        "s_4"
       ]
     }
   },
-  "raw_generation": "{\n  \"switches\": {\n    \"s_0\": {\n      \"x\": 726,\n      \"y\": 119\n    },\n    \"s_1\": {\n      \"x\": 774,\n      \"y\": 462\n    },\n    \"s_2\": {\n      \"x\": 355,\n      \"y\": 421\n    },\n    \"s_3\": {\n      \"x\": 351,\n      \"y\": 224\n    },\n    \"s_4\": {\n      \"x\": 244,\n      \"y\": 685\n    },\n    \"s_5\": {\n      \"x\": 517,\n      \"y\": 766\n    },\n    \"s_6\": {\n      \"x\": 851,\n      \"y\": 727\n    },\n    \"s_7\": {\n      \"x\": 689,\n      \"y\": 596\n    }\n  },\n  \"routing_paths\": {\n    \"r_0\": [\n      \"i_0\",\n      \"s_1\",\n      \"s_0\",\n      \"s_4\",\n      \"s_5\",\n      \"s_3\",\n      \"s_6\",\n      \"t_2\"\n    ],\n    \"r_1\": [\n      \"i_0\",\n      \"s_1\",\n      \"s_0\",\n      \"s_4\",\n      \"s_5\",\n      \"s_3\",\n      \"s_6\",\n      \"t_3\"\n    ],\n    \"r_2\": [\n      \"i_1\",\n      \"s_1\",\n      \"s_0\",\n      \"s_2\",\n      \"s_3\",\n      \"s_6\",\n      \"t_2\"\n    ],\n    \"r_3\": [\n      \"i_1\",\n      \"s_1\",\n      \"s_0\",\n      \"s_2\",\n      \"s_3\",\n      \"s_6\",\n      \"t_1\"\n    ],\n    \"r_4\": [\n      \"i_2\",\n      \"s_1\",\n      \"s_0\",\n      \"s_4\",\n      \"s_5\",\n      \"s_3\",\n      \"s_6\",\n      \"t_2\"\n    ],\n    \"r_5\": [\n      \"i_2\",\n      \"s_1\",\n      \"s_0\",\n      \"s_4\",\n      \"s_5\",\n      \"s_3\",\n      \"s_6\",\n      \"t_4\"\n    ],\n    \"r_6\": [\n      \"i_2\",\n      \"s_1\",\n      \"s_0\",\n      \"s_4\",\n      \"s_5\",\n      \"s_3\",\n      \"s_6\",\n      \"t_1\"\n    ],\n    \"r_7\": [\n      \"i_3\",\n      \"s_2\",\n      \"s_1\",\n      \"s_3\",\n      \"s_6\",\n      \"t_3\"\n    ],\n    \"r_8\": [\n      \"i_3\",\n      \"s_1\",\n      \"s_0\",\n      \"s_4\",\n      \"s_5\",\n      \"s_3\",\n      \"s_6\",\n      \"t_0\"\n    ],\n    \"r_9\": [\n      \"i_4\",\n      \"s_1\",\n      \"s_0\",\n      \"s_4\",\n      \"s_5\",\n      \"s_3\",\n      \"s_6\",\n      \"t_4\"\n    ]\n  }\n}\n\nExplanation:\nWe start by finding a good switch placement for all initiators and targets. Since we want to minimize wirelength, we place switches close to the initiators and targets.\n\nWe place switch s_0 near i_0 and t_2 to minimize the distance between them. We place switch s_1 near the initiators and targets that have common connections, i_0, i_1, and t_2, to minimize the number of switches and the overall wirelength. We place switch s_2 near i_",
+  "raw_generation": "{\"switches\":{\"s_0\":{\"x\":556,\"y\":958},\"s_1\":{\"x\":123,\"y\":781},\"s_2\":{\"x\":556,\"y\":90},\"s_3\":{\"x\":556,\"y\":974},\"s_4\":{\"x\":556,\"y\":458}},\"routing_paths\":{\"r_0\":[\"i_0\",\"s_2\"],\"r_1\":[\"i_0\",\"s_1\"],\"r_2\":[\"i_1\",\"s_2\"],\"r_3\":[\"i_1\",\"s_1\"],\"r_4\":[\"i_2\",\"s_2\"],\"r_5\":[\"i_2\",\"s_1\"],\"r_6\":[\"i_2\",\"s_4\"],\"r_7\":[\"i_3\",\"s_4\"],\"r_8\":[\"i_3\",\"s_2\"],\"r_9\":[\"i_4\",\"s_4\"]}}}",
   "parsed_successfully": true,
   "validation": {
     "valid": false,
     "errors": [
-      "switch_placement: s_0 at (726, 119) inside blockage b_1",
-      "switch_placement: s_1 at (774, 462) inside blockage b_3",
-      "switch_placement: s_2 at (355, 421) inside blockage b_1",
-      "switch_placement: s_3 at (351, 224) inside blockage b_1",
-      "switch_placement: s_5 at (517, 766) inside blockage b_3",
-      "switch_placement: s_7 at (689, 596) inside blockage b_3"
+      "switch_placement: s_4 at (556, 458) inside blockage b_3",
+      "route_connectivity: r_0 should end with t_2, got s_2",
+      "route_connectivity: r_1 should end with t_3, got s_1",
+      "route_connectivity: r_2 should end with t_2, got s_2",
+      "route_connectivity: r_3 should end with t_1, got s_1",
+      "route_connectivity: r_4 should end with t_2, got s_2",
+      "route_connectivity: r_5 should end with t_4, got s_1",
+      "route_connectivity: r_6 should end with t_1, got s_4",
+      "route_connectivity: r_7 should end with t_3, got s_4",
+      "route_connectivity: r_8 should end with t_0, got s_2",
+      "route_connectivity: r_9 should end with t_4, got s_4"
     ],
     "warnings": [],
     "checks": {
       "switch_placement": false,
       "path_elements": true,
-      "route_connectivity": true,
+      "route_connectivity": false,
       "no_cycles": true
     }
   },

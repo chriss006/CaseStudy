@@ -122,120 +122,167 @@
   "output": {
     "switches": {
       "s_0": {
-        "x": 560,
-        "y": 345
+        "x": 18,
+        "y": 825
       },
       "s_1": {
-        "x": 560,
-        "y": 632
+        "x": 146,
+        "y": 87
       },
       "s_2": {
-        "x": 560,
-        "y": 921
+        "x": 536,
+        "y": 177
       },
       "s_3": {
-        "x": 824,
-        "y": 345
+        "x": 903,
+        "y": 260
       },
       "s_4": {
-        "x": 824,
-        "y": 632
-      },
-      "s_5": {
-        "x": 824,
-        "y": 921
+        "x": 671,
+        "y": 431
       }
     },
     "routing_paths": {
       "r_0": [
-        "i_0",
-        "s_3",
-        "s_5",
-        "s_0",
-        "t_3"
+        "i_1",
+        "s_1"
       ],
       "r_1": [
         "i_1",
-        "s_0",
-        "s_1",
-        "s_2",
-        "s_3",
-        "s_4",
-        "s_5",
-        "t_1"
+        "s_4"
       ],
       "r_2": [
         "i_1",
-        "s_0",
-        "s_1",
-        "s_4",
-        "s_5",
-        "t_0"
+        "s_2"
       ],
       "r_3": [
-        "i_1",
-        "s_0",
-        "s_1",
-        "s_5",
-        "s_4",
-        "s_3",
-        "s_5",
-        "t_2"
+        "i_2",
+        "s_4"
       ],
       "r_4": [
         "i_2",
-        "s_3",
-        "s_4",
-        "s_5",
-        "t_1"
+        "s_1"
       ],
       "r_5": [
         "i_2",
-        "s_3",
-        "s_4",
-        "s_5",
-        "t_0"
+        "s_2"
       ],
       "r_6": [
-        "i_2",
-        "s_3",
-        "s_5",
-        "s_4",
-        "s_3",
-        "s_5",
-        "t_2"
+        "i_3",
+        "s_1"
       ],
       "r_7": [
         "i_3",
-        "s_3",
-        "s_5",
-        "s_4",
-        "s_3",
-        "s_5",
-        "s_4",
-        "t_1"
+        "s_4"
+      ],
+      "r_8": [
+        "i_3",
+        "s_2"
+      ],
+      "r_9": [
+        "i_3",
+        "s_0"
       ]
+    },
+    "floorplan_dim": {
+      "x": 1000,
+      "y": 1000
+    },
+    "blockages": {
+      "b_0": {
+        "x": 59,
+        "y": 91,
+        "width": 256,
+        "height": 293
+      },
+      "b_1": {
+        "x": 19,
+        "y": 438,
+        "width": 974,
+        "height": 560
+      },
+      "b_2": {
+        "x": 347,
+        "y": 252,
+        "width": 132,
+        "height": 105
+      },
+      "b_3": {
+        "x": 537,
+        "y": 17,
+        "width": 134,
+        "height": 287
+      },
+      "b_4": {
+        "x": 687,
+        "y": 10,
+        "width": 296,
+        "height": 166
+      },
+      "b_5": {
+        "x": 878,
+        "y": 263,
+        "width": 118,
+        "height": 106
+      },
+      "b_6": {
+        "x": 968,
+        "y": 434,
+        "width": 24,
+        "height": 106
+      },
+      "b_7": {
+        "x": 879,
+        "y": 435,
+        "width": 118,
+        "height": 106
+      },
+      "b_8": {
+        "x": 906,
+        "y": 508,
+        "width": 14,
+        "height": 106
+      },
+      "b_9": {
+        "x": 879,
+        "y": 608,
+        "width": 119,
+        "height": 106
+      },
+      "b_10": {
+        "x": 879,
+        "y": 702,
+        "width": 119,
+        "height": 106
+      },
+      "b_11": {
+        "x": 879,
+        "y": 806,
+        "width": 119,
+        "height": 106
+      }
     }
   },
-  "raw_generation": "{\n  \"switches\": {\n    \"s_0\": {\"x\": 560, \"y\": 345},\n    \"s_1\": {\"x\": 560, \"y\": 632},\n    \"s_2\": {\"x\": 560, \"y\": 921},\n    \"s_3\": {\"x\": 824, \"y\": 345},\n    \"s_4\": {\"x\": 824, \"y\": 632},\n    \"s_5\": {\"x\": 824, \"y\": 921}\n  },\n  \"routing_paths\": {\n    \"r_0\": [\"i_0\", \"s_3\", \"s_5\", \"s_0\", \"t_3\"],\n    \"r_1\": [\"i_1\", \"s_0\", \"s_1\", \"s_2\", \"s_3\", \"s_4\", \"s_5\", \"t_1\"],\n    \"r_2\": [\"i_1\", \"s_0\", \"s_1\", \"s_4\", \"s_5\", \"t_0\"],\n    \"r_3\": [\"i_1\", \"s_0\", \"s_1\", \"s_5\", \"s_4\", \"s_3\", \"s_5\", \"t_2\"],\n    \"r_4\": [\"i_2\", \"s_3\", \"s_4\", \"s_5\", \"t_1\"],\n    \"r_5\": [\"i_2\", \"s_3\", \"s_4\", \"s_5\", \"t_0\"],\n    \"r_6\": [\"i_2\", \"s_3\", \"s_5\", \"s_4\", \"s_3\", \"s_5\", \"t_2\"],\n    \"r_7\": [\"i_3\", \"s_3\", \"s_5\", \"s_4\", \"s_3\", \"s_5\", \"s_4\", \"t_1\"]\n  }\n}\n\nNote: This solution assumes a 6x6 torus topology and does not guarantee optimality. It's just a starting point for further optimization.",
+  "raw_generation": "{\"switches\":{\"s_0\":{\"x\":18,\"y\":825},\"s_1\":{\"x\":146,\"y\":87},\"s_2\":{\"x\":536,\"y\":177},\"s_3\":{\"x\":903,\"y\":260},\"s_4\":{\"x\":671,\"y\":431}},\"routing_paths\":{\"r_0\":[\"i_1\",\"s_1\"],\"r_1\":[\"i_1\",\"s_4\"],\"r_2\":[\"i_1\",\"s_2\"],\"r_3\":[\"i_2\",\"s_4\"],\"r_4\":[\"i_2\",\"s_1\"],\"r_5\":[\"i_2\",\"s_2\"],\"r_6\":[\"i_3\",\"s_1\"],\"r_7\":[\"i_3\",\"s_4\"],\"r_8\":[\"i_3\",\"s_2\"],\"r_9\":[\"i_3\",\"s_0\"]},\"floorplan_dim\":{\"x\":1000,\"y\":1000},\"blockages\":{\"b_0\":{\"x\":59,\"y\":91,\"width\":256,\"height\":293},\"b_1\":{\"x\":19,\"y\":438,\"width\":974,\"height\":560},\"b_2\":{\"x\":347,\"y\":252,\"width\":132,\"height\":105},\"b_3\":{\"x\":537,\"y\":17,\"width\":134,\"height\":287},\"b_4\":{\"x\":687,\"y\":10,\"width\":296,\"height\":166},\"b_5\":{\"x\":878,\"y\":263,\"width\":118,\"height\":106},\"b_6\":{\"x\":968,\"y\":434,\"width\":24,\"height\":106},\"b_7\":{\"x\":879,\"y\":435,\"width\":118,\"height\":106},\"b_8\":{\"x\":906,\"y\":508,\"width\":14,\"height\":106},\"b_9\":{\"x\":879,\"y\":608,\"width\":119,\"height\":106},\"b_10\":{\"x\":879,\"y\":702,\"width\":119,\"height\":106},\"b_11\":{\"x\":879,\"y\":806,\"width\":119,\"height\":106}}}",
   "parsed_successfully": true,
   "validation": {
     "valid": false,
     "errors": [
-      "switch_placement: s_1 at (560, 632) inside blockage b_1",
-      "switch_placement: s_2 at (560, 921) inside blockage b_1",
-      "switch_placement: s_4 at (824, 632) inside blockage b_1",
-      "switch_placement: s_5 at (824, 921) inside blockage b_1",
-      "cycles: Route r_3 contains loop - 's_5' appears multiple times",
-      "cycles: Route r_6 contains loop - 's_3' appears multiple times",
-      "cycles: Route r_7 contains loop - 's_3' appears multiple times"
+      "route_connectivity: r_0 should start with i_0, got i_1",
+      "route_connectivity: r_1 should end with t_1, got s_4",
+      "route_connectivity: r_2 should end with t_0, got s_2",
+      "route_connectivity: r_3 should start with i_1, got i_2",
+      "route_connectivity: r_4 should end with t_1, got s_1",
+      "route_connectivity: r_5 should end with t_0, got s_2",
+      "route_connectivity: r_6 should start with i_2, got i_3",
+      "route_connectivity: r_7 should end with t_1, got s_4"
     ],
     "warnings": [],
     "checks": {
-      "switch_placement": false,
+      "switch_placement": true,
       "path_elements": true,
-      "route_connectivity": true,
-      "no_cycles": false
+      "route_connectivity": false,
+      "no_cycles": true
     }
   },
   "is_valid": false

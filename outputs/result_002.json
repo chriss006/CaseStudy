@@ -126,133 +126,127 @@
   "output": {
     "switches": {
       "s_0": {
-        "x": 430,
-        "y": 741
+        "x": 952,
+        "y": 570
       },
       "s_1": {
-        "x": 421,
-        "y": 521
+        "x": 898,
+        "y": 476
       },
       "s_2": {
-        "x": 541,
-        "y": 732
+        "x": 932,
+        "y": 617
       },
       "s_3": {
-        "x": 947,
-        "y": 803
+        "x": 470,
+        "y": 966
       },
       "s_4": {
-        "x": 893,
-        "y": 699
-      },
-      "s_5": {
-        "x": 785,
-        "y": 774
+        "x": 108,
+        "y": 370
       }
     },
     "routing_paths": {
       "r_0": [
-        "i_0",
-        "s_3",
-        "s_4",
-        "s_5",
-        "s_1",
-        "s_0",
-        "t_3"
+        "i_2",
+        "s_3"
       ],
       "r_1": [
-        "i_1",
-        "s_1",
-        "s_0",
-        "t_2"
+        "i_2",
+        "s_2"
       ],
       "r_2": [
         "i_2",
-        "s_2",
-        "s_1",
-        "s_0",
-        "t_1"
+        "s_4"
       ],
       "r_3": [
-        "i_2",
-        "s_2",
-        "s_1",
-        "s_0",
-        "s_3",
-        "s_4",
-        "t_3"
+        "i_1",
+        "s_2"
       ],
       "r_4": [
-        "i_2",
-        "s_2",
-        "s_1",
-        "s_0",
-        "s_3",
-        "t_0"
+        "i_1",
+        "s_1"
       ],
       "r_5": [
-        "i_3",
-        "s_4",
-        "s_5",
-        "s_3",
-        "s_0",
-        "t_4"
+        "i_0",
+        "s_3"
       ],
       "r_6": [
-        "i_3",
-        "s_4",
-        "s_5",
-        "s_3",
-        "s_0",
-        "s_3",
-        "t_3"
+        "i_0",
+        "s_1"
       ],
       "r_7": [
-        "i_3",
-        "s_4",
-        "s_5",
-        "s_3",
-        "s_0",
-        "t_1"
+        "i_4",
+        "s_1"
       ],
       "r_8": [
         "i_4",
-        "s_1",
-        "s_0",
-        "t_0"
+        "s_4"
       ],
       "r_9": [
         "i_4",
-        "s_1",
-        "s_0",
-        "s_3",
-        "s_4",
-        "s_5",
-        "s_3",
-        "t_3"
+        "s_3"
       ]
+    },
+    "floorplan_dim": {
+      "x": 1000,
+      "y": 1000
+    },
+    "blockages": {
+      "b_0": {
+        "x": 109,
+        "y": 53,
+        "width": 657,
+        "height": 912
+      },
+      "b_1": {
+        "x": 12,
+        "y": 439,
+        "width": 285,
+        "height": 219
+      },
+      "b_2": {
+        "x": 873,
+        "y": 479,
+        "width": 126,
+        "height": 136
+      },
+      "b_3": {
+        "x": 740,
+        "y": 618,
+        "width": 220,
+        "height": 254
+      },
+      "b_4": {
+        "x": 933,
+        "y": 815,
+        "width": 39,
+        "height": 117
+      }
     }
   },
-  "raw_generation": "{\n  \"switches\": {\n    \"s_0\": {\"x\": 430, \"y\": 741},\n    \"s_1\": {\"x\": 421, \"y\": 521},\n    \"s_2\": {\"x\": 541, \"y\": 732},\n    \"s_3\": {\"x\": 947, \"y\": 803},\n    \"s_4\": {\"x\": 893, \"y\": 699},\n    \"s_5\": {\"x\": 785, \"y\": 774}\n  },\n  \"routing_paths\": {\n    \"r_0\": [\"i_0\", \"s_3\", \"s_4\", \"s_5\", \"s_1\", \"s_0\", \"t_3\"],\n    \"r_1\": [\"i_1\", \"s_1\", \"s_0\", \"t_2\"],\n    \"r_2\": [\"i_2\", \"s_2\", \"s_1\", \"s_0\", \"t_1\"],\n    \"r_3\": [\"i_2\", \"s_2\", \"s_1\", \"s_0\", \"s_3\", \"s_4\", \"t_3\"],\n    \"r_4\": [\"i_2\", \"s_2\", \"s_1\", \"s_0\", \"s_3\", \"t_0\"],\n    \"r_5\": [\"i_3\", \"s_4\", \"s_5\", \"s_3\", \"s_0\", \"t_4\"],\n    \"r_6\": [\"i_3\", \"s_4\", \"s_5\", \"s_3\", \"s_0\", \"s_3\", \"t_3\"],\n    \"r_7\": [\"i_3\", \"s_4\", \"s_5\", \"s_3\", \"s_0\", \"t_1\"],\n    \"r_8\": [\"i_4\", \"s_1\", \"s_0\", \"t_0\"],\n    \"r_9\": [\"i_4\", \"s_1\", \"s_0\", \"s_3\", \"s_4\", \"s_5\", \"s_3\", \"t_3\"]\n  }\n}\n\nExplanation:\n\n1. Placement of switches:\n- Switches are placed at the intersections of the grid to minimize wirelength.\n- Switches avoid blockage zones.\n- Switches are placed within floorplan bounds.\n\n2. Routing paths:\n- Routing paths are chosen to minimize wirelength.\n- Routing paths avoid blockage zones.\n- Routing paths form a deadlock-free network.\n\nThe generated architecture places switches at optimal locations and establishes routing paths that meet all connectivity requirements while avoiding blockage zones and minimizing wirelength.",
+  "raw_generation": "{\"switches\":{\"s_0\":{\"x\":952,\"y\":570},\"s_1\":{\"x\":898,\"y\":476},\"s_2\":{\"x\":932,\"y\":617},\"s_3\":{\"x\":470,\"y\":966},\"s_4\":{\"x\":108,\"y\":370}},\"routing_paths\":{\"r_0\":[\"i_2\",\"s_3\"],\"r_1\":[\"i_2\",\"s_2\"],\"r_2\":[\"i_2\",\"s_4\"],\"r_3\":[\"i_1\",\"s_2\"],\"r_4\":[\"i_1\",\"s_1\"],\"r_5\":[\"i_0\",\"s_3\"],\"r_6\":[\"i_0\",\"s_1\"],\"r_7\":[\"i_4\",\"s_1\"],\"r_8\":[\"i_4\",\"s_4\"],\"r_9\":[\"i_4\",\"s_3\"]},\"floorplan_dim\":{\"x\":1000,\"y\":1000},\"blockages\":{\"b_0\":{\"x\":109,\"y\":53,\"width\":657,\"height\":912},\"b_1\":{\"x\":12,\"y\":439,\"width\":285,\"height\":219},\"b_2\":{\"x\":873,\"y\":479,\"width\":126,\"height\":136},\"b_3\":{\"x\":740,\"y\":618,\"width\":220,\"height\":254},\"b_4\":{\"x\":933,\"y\":815,\"width\":39,\"height\":117}}}",
   "parsed_successfully": true,
   "validation": {
     "valid": false,
     "errors": [
-      "switch_placement: s_0 at (430, 741) inside blockage b_0",
-      "switch_placement: s_1 at (421, 521) inside blockage b_0",
-      "switch_placement: s_2 at (541, 732) inside blockage b_0",
-      "switch_placement: s_3 at (947, 803) inside blockage b_4",
-      "switch_placement: s_4 at (893, 699) inside blockage b_4",
-      "switch_placement: s_5 at (785, 774) inside blockage b_4",
-      "cycles: Route r_6 contains loop - 's_3' appears multiple times",
-      "cycles: Route r_9 contains loop - 's_3' appears multiple times"
+      "route_connectivity: r_0 should start with i_0, got i_2",
+      "route_connectivity: r_1 should start with i_1, got i_2",
+      "route_connectivity: r_2 should end with t_1, got s_4",
+      "route_connectivity: r_3 should start with i_2, got i_1",
+      "route_connectivity: r_4 should start with i_2, got i_1",
+      "route_connectivity: r_5 should start with i_3, got i_0",
+      "route_connectivity: r_6 should start with i_3, got i_0",
+      "route_connectivity: r_7 should start with i_3, got i_4",
+      "route_connectivity: r_8 should end with t_0, got s_4",
+      "route_connectivity: r_9 should end with t_3, got s_3"
     ],
     "warnings": [],
     "checks": {
-      "switch_placement": false,
+      "switch_placement": true,
       "path_elements": true,
-      "route_connectivity": true,
-      "no_cycles": false
+      "route_connectivity": false,
+      "no_cycles": true
     }
   },
   "is_valid": false

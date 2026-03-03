@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 """NoC Architecture Validation Module"""
 import json
-from typing import Dict, List, Tuple
+from typing import Dict, Tuple
 
 class ArchitectureValidator:
-    """Validates NoC architecture constraints."""
-    
     def __init__(self, spec: Dict, output: Dict):
         self.spec = spec
         self.output = output
