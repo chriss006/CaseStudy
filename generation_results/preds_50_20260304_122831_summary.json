@@ -1,0 +1,8 @@
+{
+  "total": 50,
+  "parsed_success": 46,
+  "has_switches": 45,
+  "has_routing_paths": 45,
+  "valid_count": 0,
+  "avg_errors": 15.4
+}
