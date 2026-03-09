@@ -1,0 +1,845 @@
+{
+  "summary": {
+    "total_samples": 50,
+    "valid_count": 0,
+    "invalid_count": 50,
+    "validity_rate": 0.0
+  },
+  "constraint_pass_rates": {
+    "switch_placement": 0.0,
+    "path_elements": 52.0,
+    "route_connectivity": 52.0,
+    "no_cycles": 16.0
+  },
+  "error_analysis": {
+    "Failed to parse JSON from model output": 24,
+    "switch_placement": 142,
+    "cycles": 178
+  },
+  "samples": [
+    {
+      "index": 0,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 1,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 2,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_3 at (705, 754) inside blockage b_0",
+        "switch_placement: s_4 at (753, 18) inside blockage b_4"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 3,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_1 at (78, 251) inside blockage b_2",
+        "switch_placement: s_5 at (438, 251) inside blockage b_2",
+        "switch_placement: s_6 at (438, 798) inside blockage b_2",
+        "cycles: Route r_0 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_1 contains loop - 's_2' appears multiple times",
+        "cycles: Route r_2 contains loop - 's_2' appears multiple times",
+        "cycles: Route r_6 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_7 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_8 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_9 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_10 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_11 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_12 contains loop - 's_1' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 4,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 5,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 6,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (323, 229) inside blockage b_0",
+        "switch_placement: s_1 at (221, 57) inside blockage b_0",
+        "switch_placement: s_4 at (859, 695) inside blockage b_4",
+        "switch_placement: s_6 at (825, 414) inside blockage b_7",
+        "switch_placement: s_7 at (541, 231) inside blockage b_2",
+        "switch_placement: s_10 at (874, 466) inside blockage b_7",
+        "cycles: Route r_0 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_1 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_2 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_4 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_5 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_6 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_7 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_8 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_9 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_10 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_11 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_12 contains loop - 's_0' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 7,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (300, 200) inside blockage b_1",
+        "switch_placement: s_1 at (700, 200) inside blockage b_1",
+        "switch_placement: s_2 at (700, 700) inside blockage b_1",
+        "switch_placement: s_3 at (300, 700) inside blockage b_1"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 8,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (357, 438) inside blockage b_4",
+        "switch_placement: s_1 at (729, 194) inside blockage b_4",
+        "switch_placement: s_2 at (356, 627) inside blockage b_4",
+        "switch_placement: s_4 at (727, 436) inside blockage b_4",
+        "cycles: Route r_0 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_1 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_2 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_3 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_4 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_5 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_6 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_7 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_8 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_9 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_10 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_11 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_12 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_13 contains loop - 's_3' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 9,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 10,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 11,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (221, 100) inside blockage b_0",
+        "switch_placement: s_1 at (36, 100) inside blockage b_0",
+        "switch_placement: s_2 at (36, 317) inside blockage b_0",
+        "switch_placement: s_3 at (543, 21) inside blockage b_1",
+        "switch_placement: s_4 at (627, 652) inside blockage b_0",
+        "switch_placement: s_5 at (627, 732) inside blockage b_0",
+        "switch_placement: s_7 at (771, 335) inside blockage b_0",
+        "switch_placement: s_7 at (771, 335) inside blockage b_1",
+        "switch_placement: s_8 at (771, 536) inside blockage b_0",
+        "switch_placement: s_9 at (901, 147) inside blockage b_1",
+        "switch_placement: s_10 at (901, 235) inside blockage b_1",
+        "cycles: Route r_13 contains loop - 's_1' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 12,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (631, 394) inside blockage b_0",
+        "switch_placement: s_1 at (459, 276) inside blockage b_0",
+        "switch_placement: s_2 at (783, 493) inside blockage b_2",
+        "switch_placement: s_3 at (269, 844) inside blockage b_2",
+        "switch_placement: s_5 at (172, 611) inside blockage b_2",
+        "cycles: Route r_2 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_16 contains loop - 's_4' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 13,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 14,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 15,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_1 at (139, 867) inside blockage b_1",
+        "switch_placement: s_2 at (326, 836) inside blockage b_1",
+        "switch_placement: s_3 at (144, 857) inside blockage b_1",
+        "switch_placement: s_4 at (236, 851) inside blockage b_1",
+        "switch_placement: s_5 at (1084, 846) outside bounds (1000, 1000)",
+        "switch_placement: s_6 at (326, 851) inside blockage b_1",
+        "cycles: Route r_2 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_5 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_7 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_13 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_14 contains loop - 's_5' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 16,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 17,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 18,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 19,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (372, 432) inside blockage b_2",
+        "switch_placement: s_0 at (372, 432) inside blockage b_6",
+        "switch_placement: s_1 at (283, 29) inside blockage b_0",
+        "switch_placement: s_4 at (888, 29) inside blockage b_9",
+        "cycles: Route r_0 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_1 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_2 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_3 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_4 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_5 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_6 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_7 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_8 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_9 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_10 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_11 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_12 contains loop - 's_3' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 20,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 21,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_1 at (380, 220) inside blockage b_0",
+        "switch_placement: s_2 at (600, 130) inside blockage b_0",
+        "switch_placement: s_3 at (200, 860) inside blockage b_0",
+        "switch_placement: s_4 at (700, 50) inside blockage b_1",
+        "cycles: Route r_0 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_4 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_6 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_7 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_8 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_9 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_10 contains loop - 's_1' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 22,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_2 at (498, 348) inside blockage b_4",
+        "switch_placement: s_3 at (525, 401) inside blockage b_4",
+        "switch_placement: s_4 at (628, 348) inside blockage b_4",
+        "switch_placement: s_5 at (655, 401) inside blockage b_4",
+        "switch_placement: s_6 at (687, 348) inside blockage b_4",
+        "switch_placement: s_7 at (714, 401) inside blockage b_4"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 23,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (781, 584) inside blockage b_2",
+        "switch_placement: s_1 at (86, 617) inside blockage b_1",
+        "switch_placement: s_2 at (586, 382) inside blockage b_2",
+        "switch_placement: s_4 at (573, 563) inside blockage b_2",
+        "cycles: Route r_13 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_14 contains loop - 's_3' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 24,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 25,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 26,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_1 at (125, 535) inside blockage b_3",
+        "switch_placement: s_2 at (557, 66) inside blockage b_6",
+        "switch_placement: s_3 at (525, 688) inside blockage b_8",
+        "switch_placement: s_5 at (647, 216) inside blockage b_6",
+        "switch_placement: s_6 at (366, 591) inside blockage b_4",
+        "cycles: Route r_7 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_8 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_9 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_10 contains loop - 's_1' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 27,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (432, 676) inside blockage b_0",
+        "switch_placement: s_1 at (511, 837) inside blockage b_5",
+        "switch_placement: s_2 at (369, 937) inside blockage b_6",
+        "switch_placement: s_3 at (839, 492) inside blockage b_4",
+        "switch_placement: s_4 at (174, 497) inside blockage b_0",
+        "switch_placement: s_6 at (444, 636) inside blockage b_0",
+        "switch_placement: s_7 at (668, 515) inside blockage b_4",
+        "cycles: Route r_0 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_1 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_2 contains loop - 's_1' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 28,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 29,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (493, 228) inside blockage b_1",
+        "switch_placement: s_2 at (466, 695) inside blockage b_3",
+        "switch_placement: s_3 at (754, 181) inside blockage b_2",
+        "switch_placement: s_4 at (585, 412) inside blockage b_3",
+        "switch_placement: s_5 at (514, 611) inside blockage b_3",
+        "cycles: Route r_0 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_1 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_2 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_3 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_4 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_5 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_6 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_7 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_8 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_9 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_10 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_11 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_12 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_13 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_14 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_15 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_16 contains loop - 's_5' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 30,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 31,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 32,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (568, 311) inside blockage b_0",
+        "switch_placement: s_1 at (447, 311) inside blockage b_0",
+        "switch_placement: s_2 at (544, 162) inside blockage b_0",
+        "switch_placement: s_3 at (625, 162) inside blockage b_0",
+        "switch_placement: s_4 at (706, 162) inside blockage b_0",
+        "switch_placement: s_5 at (853, 162) inside blockage b_0",
+        "switch_placement: s_6 at (931, 162) inside blockage b_0",
+        "switch_placement: s_7 at (1005, 162) outside bounds (1000, 1000)",
+        "cycles: Route r_0 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_1 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_2 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_3 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_4 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_5 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_6 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_7 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_8 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_9 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_10 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_11 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_12 contains loop - 's_5' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 33,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 34,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (496, 417) inside blockage b_4",
+        "switch_placement: s_1 at (272, 569) inside blockage b_5",
+        "switch_placement: s_2 at (536, 265) inside blockage b_2"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 35,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 36,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (253, 175) inside blockage b_0",
+        "switch_placement: s_1 at (511, 175) inside blockage b_0",
+        "switch_placement: s_2 at (253, 544) inside blockage b_0",
+        "switch_placement: s_3 at (511, 544) inside blockage b_0",
+        "switch_placement: s_4 at (253, 911) inside blockage b_0",
+        "switch_placement: s_5 at (511, 911) inside blockage b_0",
+        "cycles: Route r_0 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_1 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_2 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_3 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_4 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_5 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_6 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_7 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_8 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_9 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_10 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_11 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_12 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_13 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_14 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_15 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_16 contains loop - 's_4' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 37,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 38,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 39,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 40,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (332, 138) inside blockage b_0",
+        "switch_placement: s_1 at (163, 138) inside blockage b_0",
+        "switch_placement: s_2 at (163, 548) inside blockage b_0",
+        "switch_placement: s_4 at (818, 548) inside blockage b_5",
+        "switch_placement: s_5 at (460, 809) inside blockage b_0",
+        "switch_placement: s_6 at (883, 809) inside blockage b_5"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 41,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 42,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (467, 247) inside blockage b_5",
+        "switch_placement: s_1 at (635, 425) inside blockage b_5",
+        "switch_placement: s_3 at (413, 822) inside blockage b_5",
+        "switch_placement: s_3 at (413, 822) inside blockage b_6",
+        "switch_placement: s_4 at (517, 864) inside blockage b_7",
+        "switch_placement: s_5 at (547, 732) inside blockage b_5"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 43,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (400, 681) inside blockage b_4",
+        "switch_placement: s_1 at (735, 335) inside blockage b_5",
+        "switch_placement: s_2 at (400, 110) inside blockage b_1",
+        "switch_placement: s_3 at (400, 886) inside blockage b_4",
+        "switch_placement: s_3 at (400, 886) inside blockage b_6",
+        "cycles: Route r_0 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_1 contains loop - 's_2' appears multiple times",
+        "cycles: Route r_2 contains loop - 's_2' appears multiple times",
+        "cycles: Route r_3 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_4 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_5 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_6 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_7 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_8 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_9 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_10 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_11 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_12 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_13 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_14 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_15 contains loop - 's_2' appears multiple times",
+        "cycles: Route r_16 contains loop - 's_3' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 44,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (124, 849) inside blockage b_2",
+        "switch_placement: s_1 at (414, 849) inside blockage b_2",
+        "switch_placement: s_2 at (706, 849) inside blockage b_2",
+        "switch_placement: s_3 at (862, 849) inside blockage b_2",
+        "switch_placement: s_3 at (862, 849) inside blockage b_4",
+        "switch_placement: s_4 at (124, 961) inside blockage b_2"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 45,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (271, 339) inside blockage b_0",
+        "switch_placement: s_1 at (321, 395) inside blockage b_0",
+        "switch_placement: s_2 at (293, 71) inside blockage b_0",
+        "switch_placement: s_4 at (757, 223) inside blockage b_5",
+        "switch_placement: s_5 at (898, 363) inside blockage b_1"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": true
+      }
+    },
+    {
+      "index": 46,
+      "valid": false,
+      "errors": [
+        "Failed to parse JSON from model output"
+      ],
+      "checks": {}
+    },
+    {
+      "index": 47,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (568, 848) inside blockage b_2",
+        "switch_placement: s_2 at (105, 613) inside blockage b_2",
+        "switch_placement: s_3 at (387, 895) inside blockage b_2",
+        "switch_placement: s_4 at (321, 38) inside blockage b_0",
+        "switch_placement: s_6 at (578, 23) inside blockage b_5",
+        "switch_placement: s_7 at (69, 321) inside blockage b_1",
+        "cycles: Route r_0 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_1 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_2 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_3 contains loop - 's_2' appears multiple times",
+        "cycles: Route r_4 contains loop - 's_2' appears multiple times",
+        "cycles: Route r_5 contains loop - 's_2' appears multiple times",
+        "cycles: Route r_6 contains loop - 's_2' appears multiple times",
+        "cycles: Route r_7 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_8 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_9 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_10 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_11 contains loop - 's_3' appears multiple times",
+        "cycles: Route r_12 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_13 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_14 contains loop - 's_4' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 48,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (730, 686) inside blockage b_2",
+        "switch_placement: s_1 at (246, 686) inside blockage b_3",
+        "switch_placement: s_2 at (980, 103) inside blockage b_6",
+        "switch_placement: s_3 at (579, 411) inside blockage b_2",
+        "switch_placement: s_4 at (533, 411) inside blockage b_2",
+        "cycles: Route r_0 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_1 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_2 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_3 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_4 contains loop - 's_4' appears multiple times",
+        "cycles: Route r_5 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_6 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_7 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_8 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_9 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_10 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_11 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_12 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_13 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_14 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_15 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_16 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_17 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_18 contains loop - 's_5' appears multiple times",
+        "cycles: Route r_19 contains loop - 's_5' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    },
+    {
+      "index": 49,
+      "valid": false,
+      "errors": [
+        "switch_placement: s_0 at (271, 350) inside blockage b_0",
+        "switch_placement: s_1 at (668, 480) inside blockage b_0",
+        "switch_placement: s_2 at (391, 143) inside blockage b_0",
+        "switch_placement: s_3 at (448, 222) inside blockage b_0",
+        "switch_placement: s_4 at (423, 55) inside blockage b_0",
+        "switch_placement: s_5 at (729, 240) inside blockage b_0",
+        "switch_placement: s_6 at (835, 328) inside blockage b_0",
+        "switch_placement: s_7 at (822, 504) inside blockage b_0",
+        "switch_placement: s_8 at (875, 487) inside blockage b_0",
+        "switch_placement: s_9 at (904, 348) inside blockage b_0",
+        "cycles: Route r_5 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_9 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_10 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_11 contains loop - 's_0' appears multiple times",
+        "cycles: Route r_12 contains loop - 's_1' appears multiple times",
+        "cycles: Route r_14 contains loop - 's_1' appears multiple times"
+      ],
+      "checks": {
+        "switch_placement": false,
+        "path_elements": true,
+        "route_connectivity": true,
+        "no_cycles": false
+      }
+    }
+  ]
+}
