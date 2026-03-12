@@ -59,13 +59,13 @@ We explored multiple approaches for generating NoC architectures:
 ## Evaluation
 Generated architectures are evaluated using several structural validity checks:
 
-- Parsed Output Rate – percentage of outputs that can be parsed into valid JSON
+- **Parsed Output Rate** – percentage of outputs that can be parsed into valid JSON
 
-- Switch Placement Validity – correctness of generated switch coordinates, ensuring that routing does not intersect with forbidden regions
+- **Switch Placement Validity** – correctness of generated switch coordinates, ensuring that routing does not intersect with forbidden regions
 
-- Path Element Validity – correctness of routing path elements
+- **Path Element Validity** – correctness of routing path elements
 
-- Cycle-Free Routing – verification that routing paths do not contain cycles
+- **Cycle-Free Routing** – verification that routing paths do not contain cycles
 
 ## Run Experiments
 
@@ -75,13 +75,13 @@ The experiments can be reproduced using the following notebooks.
   Runs one-shot inference experiments using OpenLLaMA for NoC switch prediction.
 
 - **mistral7b.ipynb**  
-  Performs inference using the fine-tuned Mistral7B model.
+  Runs SFT of the Mistral7B model for Stage 1 prediction.
 
 - **validation-fewshot.ipynb**  
-  Evaluates few-shot prediction outputs and computes structural validity metrics.
+  Evaluates prediction outputs and computes structural validity metrics.
 
 - **validation-of-noc-architecture.ipynb**  
-  Validates generated NoC architectures, including routing correctness and structural constraints.
+  Runs single-stage prediction using the fine-tuned Mistral7B model and performs validation of the generated NoC architectures.
 
 ## Requirements
 Main dependencies include:
